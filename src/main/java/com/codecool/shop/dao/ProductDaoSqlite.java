@@ -51,13 +51,6 @@ public class ProductDaoSqlite implements ProductDao {
             System.out.println(e.getMessage());
         }
 
-
-        Product product1 = new Product("Product 1", 15.05f, "PLN", "Something", category, supplier);
-        Product product2 = new Product("Product 2", 15.05f, "PLN", "SomethingIsUp", category, supplier);
-        Product product3 = new Product("Product 3", 15.05f, "PLN", "SomethingIsWrong", category, supplier);
-        products.add(product1);
-        products.add(product2);
-        products.add(product3);
         return products;
     }
 
