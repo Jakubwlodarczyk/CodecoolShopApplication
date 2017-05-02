@@ -1,6 +1,5 @@
 package com.codecool.shop.dao;
 
-import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.model.Supplier;
@@ -8,9 +7,6 @@ import com.codecool.shop.model.Supplier;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by apolak on 02.05.17.
- */
 public class ProductDaoSqlite implements ProductDao {
 
     @Override
@@ -30,7 +26,7 @@ public class ProductDaoSqlite implements ProductDao {
 
     @Override
     public List<Product> getAll() {
-        List<Product> products = new ArrayList<Product>();
+        List<Product> products = new ArrayList<>();
         ProductCategory category = new ProductCategory("Category", "Department", "Description");
         Supplier supplier = new Supplier("Supplier",  "Description");
         Product product1 = new Product("Product 1", 15.05f, "PLN", "Something", category, supplier);
