@@ -12,10 +12,14 @@ public class ProductController {
 
     private ProductDao productDao = new ProductDaoSqlite();
     private List<Product> products = productDao.getAll();
+    static ProductView view = new ProductView();
 
     public void listProducts() {
-        ProductView view = new ProductView();
+        System.out.println("Products list:");
         view.displayProductList(products);
         }
 
+    public void listProductByCategory() {
+        System.out.println("Products by category:");
+    }
 }
