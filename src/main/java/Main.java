@@ -15,6 +15,7 @@ public class Main {
                 SqliteJDBCConnector.createTables();
             } catch (SQLException e) {
                 System.out.println("Cannot create tables in db.");
+                e.printStackTrace();
             }
         }
         MainMenuController menu = new MainMenuController();
