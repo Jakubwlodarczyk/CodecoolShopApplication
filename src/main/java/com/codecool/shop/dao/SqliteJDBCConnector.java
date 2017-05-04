@@ -33,13 +33,17 @@ public class SqliteJDBCConnector {
 
 
 
-        statement.execute("CREATE TABLE categories (
-                id          INTEGER PRIMARY KEY
-                UNIQUE,
-                name        VARCHAR,
-                description TEXT,
-                department  VARCHAR")
+        statement.execute("CREATE TABLE IF NOT EXISTS products \n" +
+                        "(\n" +
+                "id          INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+                "name        VARCHAR NOT NULL, \n" +
+                "description TEXT, \n" +
+                "price       DOUBLE  DEFAULT 0 \n" +
+                "NOT NULL, \n" +
+                "category_id INTEGER REFERENCES categories (id) \n" +
+                "NOT NULL)"
         );
+
 
 //        CREATE TABLE categories (
 //                id          INTEGER PRIMARY KEY
