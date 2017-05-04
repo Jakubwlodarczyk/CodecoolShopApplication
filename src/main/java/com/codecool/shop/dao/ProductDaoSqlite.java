@@ -61,6 +61,15 @@ public class ProductDaoSqlite implements ProductDao {
 
     @Override
     public List<Product> getBy(ProductCategory productCategory) {
-        return null;
+        List<Product> products = new ArrayList<>();
+        ProductCategory category = new ProductCategory("Category", "Department", "Description");
+        Supplier supplier = new Supplier("Supplier",  "Description");
+        for(int i=1; i<=5; i++) {
+            String name = "Product" + Integer.toString(i);
+            Product product = new Product(name, 12.00f, "PLN", "cos", category, supplier);
+            products.add(product);
+        }
+
+        return products;
     }
 }
