@@ -48,7 +48,7 @@ public class SqliteJDBCConnector {
                 "(\n" +
                 "id          INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 "name        VARCHAR NOT NULL, \n" +
-                "description TEXT \n)"
+                "description VARCHAR \n)"
         );
     }
 

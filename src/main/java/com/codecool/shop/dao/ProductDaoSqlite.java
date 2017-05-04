@@ -62,8 +62,28 @@ public class ProductDaoSqlite implements ProductDao {
 
     @Override
     public List<Product> getBy(Supplier supplier) {
-
-        return null;
+        ProductCategory category = new ProductCategory("Category", "Department", "Description");
+        List<Product> products = new ArrayList<Product>();
+        try {
+            Connection connection = SqliteJDBCConnector.connection();
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("select * from products where supplier_id=" + supplier.getId());
+            while(rs.next()) {
+                Product product = new Product(
+                        rs.getString("name"),
+                        rs.getFloat("price"),
+                        "PLN",
+                        rs.getString("description"),
+                        category,
+                        supplier);
+                product.setId(rs.getInt("id"));
+                products.add(product);
+            }
+        } catch(SQLException e) {
+            System.out.println("Connect to DB failed");
+            System.out.println(e.getMessage());
+        }
+        return products;
     }
 
     @Override

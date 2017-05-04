@@ -12,14 +12,14 @@ public class MainMenuController {
         ProductController productController = new ProductController();
 
         System.out.println("Select option:");
-        System.out.println("1. List all products");
-        System.out.println("2. List product by category");
+        System.out.println("1. List products by supplier");
+        System.out.println("2. List products by category");
         Scanner scanner = new Scanner(System.in);
         Integer option = UserInput.getUserInput();
 
         switch (option) {
             case 1:
-                productController.listProducts();
+                productController.listProductsBySupplier();
                 break;
             case 2:
                 productController.listProductsByCategory();
