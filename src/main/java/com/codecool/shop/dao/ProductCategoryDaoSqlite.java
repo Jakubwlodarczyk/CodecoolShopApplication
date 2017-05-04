@@ -2,6 +2,10 @@ package com.codecool.shop.dao;
 
 import com.codecool.shop.model.ProductCategory;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,29 +13,56 @@ public class ProductCategoryDaoSqlite implements ProductCategoryDao {
 
     @Override
     public void add(ProductCategory category) {
-
     }
 
     @Override
     public ProductCategory find(int id) {
-        return new ProductCategory("jakas", "category", "description");
+        ProductCategory category = null;
+        try {
+            Connection connection = SqliteJDBCConnector.connection();
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("select * from categories WHERE id="+ id);
+            while(rs.next()) {
+                category = new ProductCategory(
+                        rs.getString("name"),
+                        rs.getString("description"),
+                        rs.getString("department")
+                );
+                category.setId(rs.getInt("id"));
+            }
+        } catch (SQLException e) {
+            System.out.println("Connection to database failed.");
+            System.out.println(e.getMessage());
+        }
+        return category;
     }
 
     @Override
     public void remove(int id) {
-
     }
 
     @Override
     public List<ProductCategory> getAll() {
         List<ProductCategory> categories = new ArrayList<ProductCategory>();
 
-        for(int i=1; i<=3; i++) {
-            String name = "Category" + Integer.toString(i);
-            ProductCategory category = new ProductCategory(name, "dep", "desc");
-            category.setId(i);
-            categories.add(category);
+        try {
+            Connection connection = SqliteJDBCConnector.connection();
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("select * from categories");
+            while(rs.next()) {
+                ProductCategory category = new ProductCategory(
+                        rs.getString("name"),
+                        rs.getString("description"),
+                        rs.getString("department")
+                        );
+                category.setId(rs.getInt("id"));
+                categories.add(category);
+            }
+        } catch (SQLException e) {
+            System.out.println("Connection to database failed.");
+            System.out.println(e.getMessage());
         }
         return categories;
     }
+
 }
