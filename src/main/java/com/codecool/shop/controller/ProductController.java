@@ -7,6 +7,7 @@ import com.codecool.shop.dao.ProductDaoSqlite;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 import com.codecool.shop.view.ProductView;
+import com.codecool.shop.view.UserInput;
 
 
 import java.util.ArrayList;
@@ -26,6 +27,10 @@ public class ProductController {
 
     public void listProductByCategory() {
         view.displayListProductByCategory(categories);
+        Integer categoryId = UserInput.getUserInput();
+        ProductCategory productCategory = productCategoryDao.find(categoryId);
+        List<Product> products = productDao.getBy(productCategory);
+        view.displayProductList(products);
 
 
 
