@@ -30,6 +30,31 @@ public class SqliteJDBCConnector {
                 "    description TEXT,\n" +
                 "    price DOUBLE DEFAULT 0.00 NOT NULL\n" +
                 ")");
+
+
+
+        statement.execute("CREATE TABLE categories (
+                id          INTEGER PRIMARY KEY
+                UNIQUE,
+                name        VARCHAR,
+                description TEXT,
+                department  VARCHAR")
+        );
+
+//        CREATE TABLE categories (
+//                id          INTEGER PRIMARY KEY
+//                UNIQUE,
+//                name        VARCHAR,
+//                description TEXT,
+//                department  VARCHAR,
+//                category_id         NOT NULL
+//        );
+
+
+
+
+
+
     }
 
 }
