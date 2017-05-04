@@ -32,7 +32,7 @@ public class ProductDaoSqlite implements ProductDao {
         Supplier supplier = new Supplier("Supplier",  "Description");
 
         try {
-            Connection connection = SqliteJDBCCOnnector.connection();
+            Connection connection = SqliteJDBCConnector.connection();
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("select * from products");
             while(rs.next()) {
