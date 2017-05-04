@@ -1,7 +1,12 @@
 package com.codecool.shop.dao;
 
+import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +22,27 @@ public class ProductCategoryDaoSqlite implements ProductCategoryDao {
 
     @Override
     public ProductCategory find(int id) {
-        return new ProductCategory("Category", "Department", "Description");
+        ProductCategory productcategory = null;
+        try {
+            Connection connection = SqliteJDBCConnector.connection();
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("select * from categories where id = " + Integer.toString(id));
+            if (!rs.next()) {
+                return productcategory;
+            } else {
+                productcategory = new ProductCategory(
+                        rs.getString("name"),
+                        rs.getString("department"),
+                        rs.getString("description")
+                );
+                productcategory.setId(rs.getInt("id"));
+            }
+
+        }   catch(SQLException e) {
+            System.out.println("Connect to DB failed");
+            System.out.println(e.getMessage());
+        }
+        return productcategory;
     }
 
     @Override
@@ -28,11 +53,22 @@ public class ProductCategoryDaoSqlite implements ProductCategoryDao {
     @Override
     public List<ProductCategory> getAll() {
         List<ProductCategory> categories = new ArrayList<ProductCategory>();
-        for(int i=1; i<=3; i++) {
-            String name = "Category " + Integer.toString(i);
-            ProductCategory category = new ProductCategory(name, "department", "Description");
-            category.setId(i);
-            categories.add(category);
+        try {
+            Connection connection = SqliteJDBCConnector.connection();
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("select * from categories");
+            while(rs.next()) {
+                ProductCategory productcategory = new ProductCategory(
+                        rs.getString("name"),
+                        rs.getString("department"),
+                        rs.getString("description")
+                );
+                productcategory.setId(rs.getInt("id"));
+                categories.add(productcategory);
+            }
+        } catch(SQLException e) {
+            System.out.println("Connect to DB failed");
+            System.out.println(e.getMessage());
         }
         return categories;
     }
