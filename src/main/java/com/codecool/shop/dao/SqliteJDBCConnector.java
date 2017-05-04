@@ -26,5 +26,18 @@ public class SqliteJDBCConnector {
                 "\t`description`\tTEXT,\n" +
                 "\t`price`\tDOUBLE DEFAULT 0.00\n" +
                 ")");
+
+        statement.execute("CREATE TABLE IF NOT EXISTS \"categories\" (\n" +
+                "\t`id`\tINTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+                "\t`name`\tTEXT NOT NULL,\n" +
+                "\t`description`\tTEXT NOT NULL,\n" +
+                "\t`department`\tTEXT NOT NULL\n" +
+                ")");
+
+        statement.execute("CREATE TABLE IF NOT EXISTS \"suppliers\" (\n" +
+                "\t`id`\tINTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+                "\t`name`\tTEXT NOT NULL,\n" +
+                "\t`description`\tTEXT NOT NULL\n" +
+                ")");
     }
 }
