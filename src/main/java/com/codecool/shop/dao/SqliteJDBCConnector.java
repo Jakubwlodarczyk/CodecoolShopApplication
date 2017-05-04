@@ -33,8 +33,8 @@ public class SqliteJDBCConnector {
 
 
 
-        statement.execute("CREATE TABLE IF NOT EXISTS products \n" +
-                        "(\n" +
+        statement.execute("CREATE TABLE IF NOT EXISTS categories \n" +
+                "(\n" +
                 "id          INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 "name        VARCHAR NOT NULL, \n" +
                 "description TEXT, \n" +
@@ -44,21 +44,12 @@ public class SqliteJDBCConnector {
                 "NOT NULL)"
         );
 
-
-//        CREATE TABLE categories (
-//                id          INTEGER PRIMARY KEY
-//                UNIQUE,
-//                name        VARCHAR,
-//                description TEXT,
-//                department  VARCHAR,
-//                category_id         NOT NULL
-//        );
-
-
-
-
-
-
+        statement.execute("CREATE TABLE IF NOT EXISTS suppliers \n" +
+                "(\n" +
+                "id          INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
+                "name        VARCHAR NOT NULL, \n" +
+                "description TEXT \n)"
+        );
     }
 
 }

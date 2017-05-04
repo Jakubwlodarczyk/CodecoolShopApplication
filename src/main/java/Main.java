@@ -17,13 +17,10 @@ public class Main {
             } catch (SQLException e) {
                 System.out.println("Cannot create tables in DB");
                 System.out.println(e);
+                e.printStackTrace();
             }
         }
-
         MainMenuController.MainMenuAction();
 
-
     }
-
-
 }

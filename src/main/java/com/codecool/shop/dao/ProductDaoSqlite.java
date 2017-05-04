@@ -68,7 +68,6 @@ public class ProductDaoSqlite implements ProductDao {
 
     @Override
     public List<Product> getBy(ProductCategory productCategory) {
-        ProductCategoryDaoSqlite pcdsql = new ProductCategoryDaoSqlite();
         Supplier supplier = new Supplier("Supplier", "Description");
         List<Product> products = new ArrayList<Product>();
         try {

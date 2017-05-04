@@ -26,14 +26,14 @@ public class ProductController {
     public void listProductsByCategory() {
         ProductCategoryDaoSqlite productDaoSqlite = new ProductCategoryDaoSqlite();
         List<ProductCategory> categories = productDaoSqlite.getAll();
-        view.displayCategoriesList(categories);
+        this.view.displayCategoriesList(categories);
 
         Integer categoryId = UserInput.getUserInput();
         System.out.println("Selected category: " + Integer.toString(categoryId));
         ProductCategory category = ProductCategoryDaoSqlite.find(categoryId);
         System.out.println(category);
         List<Product> products = productDao.getBy(category);
-        view.displayProductsList(products);
+        this.view.displayProductsList(products);
 
     }
 }

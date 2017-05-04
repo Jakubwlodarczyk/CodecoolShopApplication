@@ -15,13 +15,6 @@ public class MainMenuController {
         System.out.println("1. List all products");
         System.out.println("2. List product by category");
         Scanner scanner = new Scanner(System.in);
-//        while(!scanner.hasNextInt()) {
-//            System.out.println("Invalid input. Try again");
-//            scanner.next();
-//        }
-//        Integer option = scanner.nextInt();
-//        System.out.println(option);
-
         Integer option = UserInput.getUserInput();
 
         switch (option) {
