@@ -56,20 +56,60 @@ public class ProductDaoSqlite implements ProductDao {
 
     @Override
     public List<Product> getBy(Supplier supplier) {
-        return null;
+        List<Product> products = new ArrayList<>();
+        Product product;
+        ProductCategory productCategory = new ProductCategory("dupa", "dupa", "dupa");
+
+        try {
+            Connection connection = SqliteJDBCConnector.connection();
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("select * from products WHERE supplier_id=" + supplier.getId());
+            while(rs.next()) {
+                product = new Product(rs.getString("name"),
+                        rs.getFloat("price"),
+                        "PLN",
+                        rs.getString("description"),
+                        productCategory,
+                        supplier
+                );
+                product.setId(rs.getInt("id"));
+                products.add(product);
+            }
+        } catch (SQLException e) {
+            System.out.println("Connection to database failed.");
+            System.out.println(e.getMessage());
+        }
+        return products;
     }
 
     @Override
     public List<Product> getBy(ProductCategory productCategory) {
         List<Product> products = new ArrayList<>();
-        ProductCategory category = new ProductCategory("Category", "Department", "Description");
+        Product product;
         Supplier supplier = new Supplier("Supplier",  "Description");
-        for(int i=1; i<=5; i++) {
-            String name = "Product" + Integer.toString(i);
-            Product product = new Product(name, 12.00f, "PLN", "cos", category, supplier);
-            products.add(product);
-        }
 
+        try {
+            Connection connection = SqliteJDBCConnector.connection();
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("select * from products WHERE category_id=" + productCategory.getId());
+
+            while(rs.next()) {
+                product = new Product(
+                        rs.getString("name"),
+                        rs.getFloat("price"),
+                        "PLN",
+                        rs.getString("description"),
+                        productCategory,
+                        supplier
+                );
+                product.setId(rs.getInt("id"));
+                products.add(product);
+            }
+        } catch (SQLException e) {
+            System.out.println("Connection to database failed.");
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
         return products;
     }
 }
