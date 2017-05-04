@@ -2,7 +2,7 @@ package com.codecool.shop.dao;
 
 import java.sql.*;
 
-public class SqliteJDBCCOnnector {
+public class SqliteJDBCConnector {
 
     public static Connection connection() {
 
