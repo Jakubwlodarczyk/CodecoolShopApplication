@@ -16,7 +16,7 @@ public class MainMenuController {
         System.out.println("1. List products by supplier");
         System.out.println("2. List products by category");
         System.out.println("4. Basket controller");
-        Scanner scanner = new Scanner(System.in);
+        System.out.println("5. Display Cart Action");
         Integer option = UserInput.getUserInput();
 
         switch (option) {
@@ -28,6 +28,9 @@ public class MainMenuController {
                 break;
             case 4:
                 basketController.addToCardAction();
+                break;
+            case 5:
+                basketController.displayCartAction();
                 break;
             default:
                 System.out.println("Option not found");
