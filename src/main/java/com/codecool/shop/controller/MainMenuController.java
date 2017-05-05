@@ -10,10 +10,12 @@ import java.util.Scanner;
 public class MainMenuController {
     public static void MainMenuAction() {
         ProductController productController = new ProductController();
+        BasketController basketController = new BasketController();
 
         System.out.println("Select option:");
         System.out.println("1. List products by supplier");
         System.out.println("2. List products by category");
+        System.out.println("4. Basket controller");
         Scanner scanner = new Scanner(System.in);
         Integer option = UserInput.getUserInput();
 
@@ -23,6 +25,9 @@ public class MainMenuController {
                 break;
             case 2:
                 productController.listProductsByCategory();
+                break;
+            case 4:
+                basketController.addToCardAction();
                 break;
             default:
                 System.out.println("Option not found");
