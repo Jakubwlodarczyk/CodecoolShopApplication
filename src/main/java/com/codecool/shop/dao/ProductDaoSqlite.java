@@ -25,7 +25,9 @@ public class ProductDaoSqlite implements ProductDao {
     public Product find(int id) {
         ProductCategory category = new ProductCategory("Category", "Department", "Description");
         Supplier supplier = new Supplier("Supplier", "Description");
-        return new Product("name1", 3.6f, "PLN", "Description", category, supplier);
+        Product product = new Product("name1", 3.6f, "PLN", "Description", category, supplier);
+        product.setId(4);
+        return product;
     }
 
     @Override

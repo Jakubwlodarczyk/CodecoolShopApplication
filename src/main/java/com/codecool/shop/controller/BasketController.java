@@ -2,6 +2,7 @@ package com.codecool.shop.controller;
 
 import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.dao.ProductDaoSqlite;
+import com.codecool.shop.model.Basket;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.view.ProductView;
 import com.codecool.shop.view.UserInput;
@@ -14,6 +15,7 @@ import java.util.List;
 public class BasketController {
     ProductDao productDao = new ProductDaoSqlite();
     ProductView productView = new ProductView();
+    Basket basket = new Basket();
 
 
     public void addToCardAction() {
@@ -23,7 +25,11 @@ public class BasketController {
         Integer productId = UserInput.getUserInput();
         Product product = productDao.find(productId);
         System.out.println(product);
-
+        System.out.println(this.basket.getTotalCount());
+        this.basket.add(product, 1);
+        System.out.println(this.basket.getTotalCount());
+        this.basket.add(product, 5);
+        System.out.println(this.basket.getTotalCount());
 
     }
 }
