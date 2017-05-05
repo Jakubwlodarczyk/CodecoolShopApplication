@@ -22,7 +22,7 @@ public class ProductDaoSqlite implements ProductDao {
     }
 
     @Override
-    public Product find(int id) {
+    public Product find(int id) { // PLEASE CORRECT IT !!!
         ProductCategory category = new ProductCategory("Category", "Department", "Description");
         Supplier supplier = new Supplier("Supplier", "Description");
         Product product = new Product("name1", 3.6f, "PLN", "Description", category, supplier);
