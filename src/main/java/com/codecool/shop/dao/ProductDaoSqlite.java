@@ -70,7 +70,7 @@ public class ProductDaoSqlite implements ProductDao {
         try {
             Connection connection = SqliteJDBCConnector.connection();
             Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("select * from products WHERE supplier_id=" + supplier.getId());
+            ResultSet rs = statement.executeQuery("select id, name, price, description, category_id from products WHERE supplier_id=" + supplier.getId());
 
             while(rs.next()) {
                 product = new Product(rs.getString("name"),
@@ -100,7 +100,7 @@ public class ProductDaoSqlite implements ProductDao {
         try {
             Connection connection = SqliteJDBCConnector.connection();
             Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("select * from products WHERE category_id=" + productCategory.getId());
+            ResultSet rs = statement.executeQuery("select id, name, price, description, supplier_id from products WHERE category_id=" + productCategory.getId());
 
             while(rs.next()) {
                 product = new Product(
