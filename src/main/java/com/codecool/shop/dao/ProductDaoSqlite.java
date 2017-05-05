@@ -17,7 +17,12 @@ public class ProductDaoSqlite implements ProductDao {
 
     @Override
     public Product find(int id) {
-        return null;
+        ProductCategory p = new ProductCategory("dupa", "dipa", "sosl");
+        Supplier supplier = new Supplier("Supplier",  "Description");
+        Product pr = new Product("jakis", 4.4f, "PLN", "costam", p, supplier);
+        pr.setId(4);
+        return pr;
+
     }
 
     @Override
@@ -44,6 +49,7 @@ public class ProductDaoSqlite implements ProductDao {
                         category,
                         supplier
                 );
+                product.setId(rs.getInt("id"));
                 products.add(product);
             }
         } catch (SQLException e) {
@@ -86,13 +92,13 @@ public class ProductDaoSqlite implements ProductDao {
     public List<Product> getBy(ProductCategory productCategory) {
         List<Product> products = new ArrayList<>();
         Product product;
-        Supplier supplier = new Supplier("Supplier",  "Description");
+
 
         try {
             Connection connection = SqliteJDBCConnector.connection();
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("select * from products WHERE category_id=" + productCategory.getId());
-
+            SupplierDao supplierDao = new SupplierDaoSqlite();
             while(rs.next()) {
                 product = new Product(
                         rs.getString("name"),
@@ -100,7 +106,7 @@ public class ProductDaoSqlite implements ProductDao {
                         "PLN",
                         rs.getString("description"),
                         productCategory,
-                        supplier
+                        supplierDao.find(rs.getInt("id"))
                 );
                 product.setId(rs.getInt("id"));
                 products.add(product);

@@ -10,7 +10,7 @@ public class ProductView {
     public void displayProductList(List<Product> products) {
         System.out.println("Products list:");
         for(Product p: products) {
-            System.out.println(p.getName());
+            System.out.println(p);
         }
     }
 

@@ -11,7 +11,6 @@ public class UserInput {
             System.out.println("Invalid input.");
             scanner.next();
         }
-
         return scanner.nextInt();
 
     }
