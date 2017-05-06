@@ -12,16 +12,34 @@ public class ProductDaoSqlite implements ProductDao {
 
     @Override
     public void add(Product product) {
-
     }
 
     @Override
     public Product find(int id) {
-        ProductCategory p = new ProductCategory("dupa", "dipa", "sosl");
-        Supplier supplier = new Supplier("Supplier",  "Description");
-        Product pr = new Product("jakis", 4.4f, "PLN", "costam", p, supplier);
-        pr.setId(4);
-        return pr;
+        Product product = null;
+        ProductCategoryDao productCategoryDao = new ProductCategoryDaoSqlite();
+        SupplierDao supplierDao = new SupplierDaoSqlite();
+        try {
+            Connection connection = SqliteJDBCConnector.connection();
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("select id, name, price, description, category_id, supplier_id from products WHERE id="+ id);
+            while(rs.next()) {
+                product = new Product(
+                        rs.getString("name"),
+                        rs.getFloat("price"),
+                        "PLN",
+                        rs.getString("description"),
+                        productCategoryDao.find(rs.getInt("category_id")),
+                        supplierDao.find(rs.getInt("supplier_id"))
+                );
+                product.setId(rs.getInt("id"));
+            }
+        } catch (SQLException e) {
+            System.out.println("Connection to database failed.");
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+        return product;
 
     }
 
