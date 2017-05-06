@@ -93,35 +93,18 @@ public class ProductDaoSqlite extends BaseDao implements ProductDao {
 
     @Override
     public List<Product> getBy(ProductCategory productCategory) {
-
         List<Product> products = new ArrayList<>();
-        Product product;
-        SupplierDao supplierDao = new SupplierDaoSqlite();
 
         try {
-            Connection connection = SqliteJDBCConnector.connection();
-            Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("select id, name, price, description, supplier_id from products WHERE category_id=" + productCategory.getId());
-
-            while(rs.next()) {
-                product = new Product(
-                        rs.getString("name"),
-                        rs.getFloat("price"),
-                        "PLN",
-                        rs.getString("description"),
-                        productCategory,
-                        supplierDao.find(rs.getInt("id"))
-                );
-                product.setId(rs.getInt("id"));
-                products.add(product);
-            }
+            PreparedStatement statement = this.getConnection().prepareStatement("SELECT * FROM products WHERE category_id= ?");
+            statement.setInt(1, productCategory.getId());
+            products = this.getProducts(statement);
         } catch (SQLException e) {
-            System.out.println("Connection to database failed.");
-            System.out.println(e.getMessage());
             e.printStackTrace();
         }
         return products;
     }
+
     private List<Product> getProducts(PreparedStatement statement) throws SQLException {
         List<Product> products = new ArrayList<>();
         SupplierDao supplierDao = new SupplierDaoSqlite();
