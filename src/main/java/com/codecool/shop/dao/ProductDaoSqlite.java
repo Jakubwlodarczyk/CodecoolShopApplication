@@ -8,7 +8,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductDaoSqlite implements ProductDao {
+public class ProductDaoSqlite extends BaseDao implements ProductDao {
 
     @Override
     public void add(Product product) {
@@ -51,30 +51,13 @@ public class ProductDaoSqlite implements ProductDao {
     @Override
     public List<Product> getAll() {
         List<Product> products = new ArrayList<>();
-        ProductCategory category = new ProductCategory("Category", "Department", "Description");
-        Supplier supplier = new Supplier("Supplier",  "Description");
 
         try {
-            Connection connection = SqliteJDBCConnector.connection();
-            Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("select * from products");
-            while(rs.next()) {
-                Product product = new Product(
-                        rs.getString("name"),
-                        rs.getFloat("price"),
-                        "PLN",
-                        rs.getString("description"),
-                        category,
-                        supplier
-                );
-                product.setId(rs.getInt("id"));
-                products.add(product);
-            }
+            PreparedStatement statement = this.getConnection().prepareStatement("SELECT * FROM products");
+            products = this.getProducts(statement);
         } catch (SQLException e) {
-            System.out.println("Connection to database failed.");
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
-
         return products;
     }
 
@@ -136,6 +119,26 @@ public class ProductDaoSqlite implements ProductDao {
             System.out.println("Connection to database failed.");
             System.out.println(e.getMessage());
             e.printStackTrace();
+        }
+        return products;
+    }
+    private List<Product> getProducts(PreparedStatement statement) throws SQLException {
+        List<Product> products = new ArrayList<>();
+        SupplierDao supplierDao = new SupplierDaoSqlite();
+        ProductCategoryDao productCategoryDao = new ProductCategoryDaoSqlite();
+
+        ResultSet resultSet = statement.executeQuery();
+        while(resultSet.next()) {
+            Product product = new Product(
+                    resultSet.getString("name"),
+                    resultSet.getFloat("price"),
+                    "PLN",
+                    resultSet.getString("description"),
+                    productCategoryDao.find(resultSet.getInt("category_id")),
+                    supplierDao.find(resultSet.getInt("supplier_id"))
+            );
+            product.setId(resultSet.getInt("id"));
+            products.add(product);
         }
         return products;
     }
