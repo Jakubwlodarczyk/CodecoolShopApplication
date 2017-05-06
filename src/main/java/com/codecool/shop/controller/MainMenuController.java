@@ -5,19 +5,18 @@ import com.codecool.shop.view.UserInput;
 
 
 public class MainMenuController {
-
     static ProductController productController = new ProductController();
     static BasketController basketController = new BasketController();
 
-
         public static void mainMenuAction() {
             while(true){
-                System.out.println("Select option:");
+
                 System.out.println("1. List all products.");
                 System.out.println("2. List products by category.");
                 System.out.println("3. List products by supplier.");
                 System.out.println("4. Add to cart.");
                 System.out.println("5. Display basket.");
+                System.out.println("Select option:");
 
                 Integer option = UserInput.getUserInput();
 
