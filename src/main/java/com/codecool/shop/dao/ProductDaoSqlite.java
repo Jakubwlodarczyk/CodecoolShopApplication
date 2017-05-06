@@ -17,30 +17,29 @@ public class ProductDaoSqlite extends BaseDao implements ProductDao {
     @Override
     public Product find(int id) {
         Product product = null;
-        ProductCategoryDao productCategoryDao = new ProductCategoryDaoSqlite();
         SupplierDao supplierDao = new SupplierDaoSqlite();
+        ProductCategoryDao productCategoryDao = new ProductCategoryDaoSqlite();
+
         try {
-            Connection connection = SqliteJDBCConnector.connection();
-            Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("select id, name, price, description, category_id, supplier_id from products WHERE id="+ id);
-            while(rs.next()) {
-                product = new Product(
-                        rs.getString("name"),
-                        rs.getFloat("price"),
+            PreparedStatement statement = this.getConnection().prepareStatement("SELECT * FROM products WHERE id= ?");
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            while(resultSet.next()) {
+                        product = new Product(
+                        resultSet.getString("name"),
+                        resultSet.getFloat("price"),
                         "PLN",
-                        rs.getString("description"),
-                        productCategoryDao.find(rs.getInt("category_id")),
-                        supplierDao.find(rs.getInt("supplier_id"))
+                        resultSet.getString("description"),
+                        productCategoryDao.find(resultSet.getInt("category_id")),
+                        supplierDao.find(resultSet.getInt("supplier_id"))
                 );
-                product.setId(rs.getInt("id"));
+                product.setId(resultSet.getInt("id"));
             }
+
         } catch (SQLException e) {
-            System.out.println("Connection to database failed.");
-            System.out.println(e.getMessage());
             e.printStackTrace();
         }
         return product;
-
     }
 
     @Override
