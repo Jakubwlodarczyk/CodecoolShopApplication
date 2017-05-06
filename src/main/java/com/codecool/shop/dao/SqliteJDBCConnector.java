@@ -5,8 +5,8 @@ import java.sql.*;
 public class SqliteJDBCConnector {
 
     public static Connection connection() {
-
         Connection connection = null;
+
         try {
             connection = DriverManager.getConnection("jdbc:sqlite:src/main/resources/database.db");
         } catch (SQLException e) {
@@ -17,7 +17,6 @@ public class SqliteJDBCConnector {
     }
 
     public static void createTables() throws SQLException {
-
         Connection connection = connection();
         Statement statement = connection.createStatement();
         statement.execute("CREATE TABLE IF NOT EXISTS \"products\" (\n" +
