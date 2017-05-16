@@ -28,7 +28,7 @@ public class ProductController {
         Map<String, Object> params = new HashMap();
         params.put("products", products);
         params.put("categories", categories);
-        params.put("category", "All categories");
+        params.put("category", "All products");
         return new ThymeleafTemplateEngine().render(new ModelAndView(params, "product/index"));
         }
 
