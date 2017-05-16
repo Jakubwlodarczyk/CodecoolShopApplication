@@ -1,21 +1,23 @@
 package com.codecool.shop;
 
-
-import com.codecool.shop.controller.MainMenuController;
-import com.codecool.shop.dao.SqliteJDBCConnector;
-
+import com.codecool.shop.controller.ProductController;
+import static spark.Spark.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Application {
     private Connection connection;
+    private ProductController productController = new ProductController();
 
     public Application() {
         System.out.println("Application initialization in progress...");
+
         try {
             this.connectToDb();
-            this.dispatchMainMenuController();
+            System.out.println("Connection established!");
+            this.routs();
+
         } catch (SQLException e) {
             System.out.println("Application initialization failed");
             e.printStackTrace();
@@ -27,8 +29,13 @@ public class Application {
         this.connection = DriverManager.getConnection("jdbc:sqlite:src/main/resources/database.db");
     }
 
-    public void dispatchMainMenuController() {
-        MainMenuController mainMenuController = new MainMenuController();
-        mainMenuController.mainMenuAction();
+
+    public void routs() {
+        exception(Exception.class, (e, req, res) -> e.printStackTrace());
+        staticFileLocation("/public");
+        port(8888);
+
+        get("/", (req, res) -> this.productController.renderListProducts(req, res));
+
     }
 }

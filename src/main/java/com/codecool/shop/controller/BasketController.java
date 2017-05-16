@@ -8,7 +8,6 @@ import com.codecool.shop.model.Product;
 import com.codecool.shop.view.BasketView;
 import com.codecool.shop.view.ProductView;
 import com.codecool.shop.view.UserInput;
-
 import java.util.List;
 
 public class BasketController {
