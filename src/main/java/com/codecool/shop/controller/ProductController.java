@@ -23,20 +23,25 @@ public class ProductController {
 
 
     public String renderListProducts(Request req, Response res) {
+        List<ProductCategory> categories = productCategoryDao.getAll();
         List<Product> products = productDao.getAll();
-        Map params = new HashMap();
+        Map<String, Object> params = new HashMap();
         params.put("products", products);
+        params.put("categories", categories);
+        params.put("category", "All categories");
         return new ThymeleafTemplateEngine().render(new ModelAndView(params, "product/index"));
         }
 
-    public void listProductByCategory() {
+    public String renderListProductByCategory(Request req, Response res) {
         List<ProductCategory> categories = productCategoryDao.getAll();
-        this.view.displayListProductByCategory(categories);
-
-        Integer categoryId = UserInput.getUserInput();
-        ProductCategory productCategory = productCategoryDao.find(categoryId);
+        String categoryId = req.queryParams("selectCategory");
+        ProductCategory productCategory = productCategoryDao.find(Integer.parseInt(categoryId));
         List<Product> products = productDao.getBy(productCategory);
-        this.view.displayProductList(products);
+        Map<String, Object> params = new HashMap();
+        params.put("products", products);
+        params.put("categories", categories);
+        params.put("category", productCategory.getName());
+        return new ThymeleafTemplateEngine().render(new ModelAndView(params, "product/index"));
     }
 
     public void listProductsBySupplier() {
