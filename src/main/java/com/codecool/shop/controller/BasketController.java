@@ -24,12 +24,11 @@ public class BasketController {
     Basket basket = new Basket();
     BasketView basketView = new BasketView();
 
-
-    public String renderListProducts(Request req, Response res) {
-        Map<String, List> params = new HashMap<>();
-        params.put("products", products);
-        return new ThymeleafTemplateEngine().render(new ModelAndView(params, "product/index"));
-    }
+//    public String renderListProducts(Request req, Response res) {
+//        Map<String, List> params = new HashMap<>();
+//        params.put("products", products);
+//        return new ThymeleafTemplateEngine().render(new ModelAndView(params, "product/index"));
+//    }
 
     public void addToCartAction(){
       List<Product> products = this.productDao.getAll();

@@ -22,7 +22,14 @@ public class Basket {
     }
 
     public List<BasketItem> getItems() {
-        return items;
+        Supplier supplier = new Supplier("supplier", "desc");
+        ProductCategory productCategory = new ProductCategory("name", "department", "descript");
+        Product product = new Product("name", 12f, "PLN", "DESCTIPTION", productCategory, supplier);
+
+        this.items.add(new BasketItem(product, 1);
+        this.items.add(new BasketItem(product, 2));
+        this.items.add(new BasketItem(product, 3));
+        return this.items;
     }
 
     public void setItems(List<BasketItem> items) {
