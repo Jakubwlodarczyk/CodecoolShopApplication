@@ -35,6 +35,7 @@ public class Application {
         port(8888);
 
         get("/", (req, res) -> this.productController.renderListProducts(req, res));
+        post("/byCategory", (req, res) -> this.productController.renderListProductByCategory(req,res));
 
     }
 }
