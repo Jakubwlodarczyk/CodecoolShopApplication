@@ -1,6 +1,7 @@
 package com.codecool.shop;
 
 import com.codecool.shop.controller.ProductController;
+import com.codecool.shop.model.Basket;
 import static spark.Spark.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,7 +10,7 @@ import java.sql.SQLException;
 public class Application {
     private Connection connection;
     private ProductController productController = new ProductController();
-
+    private static Basket basket = new Basket();
     public Application() {
 
         try {
@@ -28,13 +29,14 @@ public class Application {
         this.connection = DriverManager.getConnection("jdbc:sqlite:src/main/resources/database.db");
     }
 
-
     public void routs() {
         exception(Exception.class, (e, req, res) -> e.printStackTrace());
         staticFileLocation("/public");
         port(8888);
 
         get("/", (req, res) -> this.productController.renderListProducts(req, res));
+
+        post("/add-to-basket", (req, res) -> this.productController.addToBasket(req, res));
 
     }
 }
