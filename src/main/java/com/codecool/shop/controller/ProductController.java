@@ -20,11 +20,11 @@ public class ProductController {
     private ProductCategoryDao productCategoryDao = new ProductCategoryDaoSqlite();
     private SupplierDao supplierDao = new SupplierDaoSqlite();
     private ProductView view = new ProductView();
-    private static Map params = new HashMap();
 
 
     public String renderListProducts(Request req, Response res) {
         List<Product> products = productDao.getAll();
+        Map params = new HashMap();
         params.put("products", products);
         return new ThymeleafTemplateEngine().render(new ModelAndView(params, "product/index"));
         }
