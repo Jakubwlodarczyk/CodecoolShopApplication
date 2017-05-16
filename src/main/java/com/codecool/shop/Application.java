@@ -11,8 +11,6 @@ import java.sql.SQLException;
 public class Application {
     private Connection connection;
     private ProductController productController = new ProductController();
-    private String dropArgument = "--init-db";
-    private String createTablesArgument = "--migrate-db";
 
     public Application(String[] args) throws SQLException {
 
@@ -20,6 +18,8 @@ public class Application {
             this.connectToDb();
             System.out.println("Connection established!");
             if(args.length>0){
+                String dropArgument = "--init-db";
+                String createTablesArgument = "--migrate-db";
                 if (dropArgument.equals(args[0])) {
                     SqliteJDBCConnector.dropTables();
                     SqliteJDBCConnector.createTables();
