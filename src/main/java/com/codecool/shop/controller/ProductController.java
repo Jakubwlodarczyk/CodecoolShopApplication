@@ -10,8 +10,6 @@ import spark.ModelAndView;
 import spark.Response;
 import spark.Request;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
-
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
