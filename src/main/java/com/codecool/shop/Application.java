@@ -1,6 +1,9 @@
 package com.codecool.shop;
 
+import com.codecool.shop.controller.BasketController;
 import com.codecool.shop.controller.ProductController;
+import spark.template.thymeleaf.ThymeleafTemplateEngine;
+
 import static spark.Spark.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,6 +12,7 @@ import java.sql.SQLException;
 public class Application {
     private Connection connection;
     private ProductController productController = new ProductController();
+    private BasketController basketController = new BasketController();
 
     public Application() {
         System.out.println("Application initialization in progress...");
@@ -29,13 +33,13 @@ public class Application {
         this.connection = DriverManager.getConnection("jdbc:sqlite:src/main/resources/database.db");
     }
 
-
     public void routs() {
         exception(Exception.class, (e, req, res) -> e.printStackTrace());
         staticFileLocation("/public");
         port(8888);
 
         get("/", (req, res) -> this.productController.renderListProducts(req, res));
-
+        post ("/basket", (req, res) -> this.basketController.renderListProducts(req, res));
+//        post("/basket", EventController::addEventNew, new ThymeleafTemplateEngine());
     }
 }

@@ -8,7 +8,14 @@ import com.codecool.shop.model.Product;
 import com.codecool.shop.view.BasketView;
 import com.codecool.shop.view.ProductView;
 import com.codecool.shop.view.UserInput;
+import spark.ModelAndView;
+import spark.Request;
+import spark.Response;
+import spark.template.thymeleaf.ThymeleafTemplateEngine;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BasketController {
 
@@ -16,6 +23,13 @@ public class BasketController {
     ProductView view = new ProductView();
     Basket basket = new Basket();
     BasketView basketView = new BasketView();
+
+
+    public String renderListProducts(Request req, Response res) {
+        Map<String, List> params = new HashMap<>();
+        params.put("products", products);
+        return new ThymeleafTemplateEngine().render(new ModelAndView(params, "product/index"));
+    }
 
     public void addToCartAction(){
       List<Product> products = this.productDao.getAll();
@@ -25,8 +39,9 @@ public class BasketController {
         Integer productId = UserInput.getUserInput();
         Product product = productDao.find(productId);
         this.basket.add(product, 1);
-
     }
+
+
 
     public void displayCartAction() {
         this.basketView.displayBasketItems(this.basket.getItems());
