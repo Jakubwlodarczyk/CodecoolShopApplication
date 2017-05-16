@@ -13,7 +13,6 @@ public class Application {
 
     public Application() {
         System.out.println("Application initialization in progress...");
-
         try {
             this.connectToDb();
             this.dispatchMainMenuController();
@@ -26,7 +25,6 @@ public class Application {
     public void connectToDb() throws SQLException {
         System.out.println("Connecting to DB...");
         this.connection = DriverManager.getConnection("jdbc:sqlite:src/main/resources/database.db");
-
     }
 
     public void dispatchMainMenuController() {
