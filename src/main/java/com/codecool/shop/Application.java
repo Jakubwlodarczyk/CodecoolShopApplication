@@ -1,11 +1,7 @@
 package com.codecool.shop;
 
 import com.codecool.shop.controller.ProductController;
-
-
-
 import static spark.Spark.*;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
