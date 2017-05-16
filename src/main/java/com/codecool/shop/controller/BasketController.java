@@ -4,6 +4,7 @@ package com.codecool.shop.controller;
 import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.dao.ProductDaoSqlite;
 import com.codecool.shop.model.Basket;
+import com.codecool.shop.model.BasketItem;
 import com.codecool.shop.model.Product;
 import com.codecool.shop.view.BasketView;
 import com.codecool.shop.view.ProductView;
@@ -24,11 +25,12 @@ public class BasketController {
     Basket basket = new Basket();
     BasketView basketView = new BasketView();
 
-//    public String renderListProducts(Request req, Response res) {
-//        Map<String, List> params = new HashMap<>();
-//        params.put("products", products);
-//        return new ThymeleafTemplateEngine().render(new ModelAndView(params, "product/index"));
-//    }
+    public String renderListBasketItems(Request req, Response res) {
+        List<BasketItem> basketList = basket.getItems();
+        Map<String, List> params = new HashMap<>();
+        params.put("basketItems", basketList);
+        return new ThymeleafTemplateEngine().render(new ModelAndView(params, "product/basket"));
+    }
 
     public void addToCartAction(){
       List<Product> products = this.productDao.getAll();

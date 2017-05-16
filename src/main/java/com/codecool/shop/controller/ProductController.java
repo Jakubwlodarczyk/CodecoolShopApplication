@@ -22,7 +22,7 @@ public class ProductController {
     private ProductView view = new ProductView();
 
     public String renderListProducts(Request req, Response res) {
-
+        Map<String, List> params = new HashMap<>();
         List<Product> products = productDao.getAll();
         params.put("products", products);
         return new ThymeleafTemplateEngine().render(new ModelAndView(params, "product/index"));

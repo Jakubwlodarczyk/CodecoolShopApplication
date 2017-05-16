@@ -39,7 +39,6 @@ public class Application {
         port(8888);
 
         get("/", (req, res) -> this.productController.renderListProducts(req, res));
-        post ("/basket", (req, res) -> this.basketController.renderListProducts(req, res));
-//        post("/basket", EventController::addEventNew, new ThymeleafTemplateEngine());
+        get ("/basket", (req, res) -> this.basketController.renderListBasketItems(req, res));
     }
 }

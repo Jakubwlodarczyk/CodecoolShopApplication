@@ -37,9 +37,8 @@
     <div class="well well-sm">
         <!--<strong th:text="${category.name}">Category Title</strong>-->
         <strong>Category Title</strong>
-        <form method="post" action="/basket">
-            <button type="submit">Show products in basket</button>
-        </form>
+        <a href="basket.html"
+           th:href="@{~/basket}"><button type="submit">Show products in basket</button></a>
     </div>
 
     <div id="products" class="row list-group">
