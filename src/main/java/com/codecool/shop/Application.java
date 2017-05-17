@@ -51,6 +51,7 @@ public class Application {
         post("/byCategory", (req, res) -> this.productController.renderListProductByCategory(req,res));
         post("/bySupplier", (req, res) -> this.productController.renderListProductsBySupplier(req,res));
         post("/add-to-basket", (req, res) -> this.productController.addToBasket(req, res));
+        post("/delete-from-basket", (req, res) -> this.productController.deleteFromBasket(req, res));
 
     }
 }
