@@ -27,8 +27,21 @@
 </head>
 <body>
 <div class="jumbotron text-center">
-    <h1>Products Basket</h1>
-    <h2>You are in Basket Template!</h2>
+    <h1>Products in Basket</h1>
+    <div class="col-xs-4 col-xs-offset-4 col-sm-4 col-sm-offset-4"
+         th:each="item: ${basketItems}">
+        <table class="table table-striped">
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+            </tr>
+            <tr>
+                <td th:text="${itemStat.count}"></td>
+                <td th:text="${item.getProduct().getName()}"></td>
+                <td th:text="${item.getQuantity()}"></td>
+            </tr>
+        </table>
+    </div>
 </div>
 </body>
 </html>
