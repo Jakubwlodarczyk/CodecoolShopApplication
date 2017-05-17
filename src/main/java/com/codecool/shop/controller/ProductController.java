@@ -51,6 +51,18 @@ public class ProductController {
         return "";
     }
 
+    public String deleteFromBasket(Request req, Response res) {
+        boolean isRemoved;
+        Integer id = Integer.parseInt(req.queryParams("id"));
+        Integer quantity = Integer.parseInt(req.queryParams("quantity"));
+        Product product = proDaoSql.find(id);
+        Basket basket = req.session().attribute("basket");
+        isRemoved = basket.remove(product, quantity);
+        System.out.println("Total quantity of items in basket: " + basket.getTotalCount());
+        res.redirect("/basket");
+        return "";
+    }
+
     public String renderListProductByCategory(Request req, Response res) {
         List<ProductCategory> categories = productCategoryDao.getAll();
         List<Supplier> suppliers = supplierDao.getAll();
