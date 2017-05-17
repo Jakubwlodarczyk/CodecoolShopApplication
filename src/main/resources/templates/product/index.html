@@ -67,6 +67,10 @@
 </nav>
 
 <div class="container">
+    <div th:if="${purchased}" class="alert alert-success alert-dismissable">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong th:text="${quantity}"></strong> <strong th:text="${purchased.getName()}"></strong> added to cart!
+    </div>
     <div th:if="${category!= null}" class="well well-sm">
         <h3  th:text="${category}"></h3>
     </div>
