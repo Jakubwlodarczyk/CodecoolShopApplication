@@ -24,10 +24,14 @@ public class Basket {
     public boolean remove(Product product, Integer quantity) {
         for (BasketItem item : this.getItems()) {
             if (item.getProduct().getId() == product.getId()) {
-                if (quantity <= item.getQuantity()) {
+                if (quantity < item.getQuantity()) {
                     item.setQuantity(item.getQuantity() - quantity);
                     return true;
                     }
+                if ( quantity.equals(item.getQuantity()) ) {
+                    this.getItems().remove(item);
+                    return true;
+                }
                 }
             }
         return false;
