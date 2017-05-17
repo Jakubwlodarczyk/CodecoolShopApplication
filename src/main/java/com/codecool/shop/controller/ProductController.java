@@ -21,6 +21,7 @@ public class ProductController {
     private ProductCategoryDao productCategoryDao = new ProductCategoryDaoSqlite();
     private SupplierDao supplierDao = new SupplierDaoSqlite();
     private ProductView view = new ProductView();
+
     private ProductDaoSqlite proDaoSql = new ProductDaoSqlite();
 
 
@@ -40,6 +41,7 @@ public class ProductController {
         return new ThymeleafTemplateEngine().render(new ModelAndView(params, "product/index"));
         }
 
+
     public String addToBasket(Request req, Response res) {
         Integer id = Integer.parseInt(req.queryParams("id"));
         Integer quantity = Integer.parseInt(req.queryParams("quantity"));
@@ -48,6 +50,18 @@ public class ProductController {
         basket.add(product, quantity);
         System.out.println("Total quantity of items in basket: " + basket.getTotalCount());
         res.redirect("/");
+        return "";
+    }
+
+    public String deleteFromBasket(Request req, Response res) {
+        boolean isRemoved;
+        Integer id = Integer.parseInt(req.queryParams("id"));
+        Integer quantity = Integer.parseInt(req.queryParams("quantity"));
+        Product product = proDaoSql.find(id);
+        Basket basket = req.session().attribute("basket");
+        isRemoved = basket.remove(product, quantity);
+        System.out.println("Total quantity of items in basket: " + basket.getTotalCount());
+        res.redirect("/basket");
         return "";
     }
 
