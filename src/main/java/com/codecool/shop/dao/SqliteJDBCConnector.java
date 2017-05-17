@@ -33,14 +33,15 @@ public class SqliteJDBCConnector {
                 "\t`description`\tTEXT NOT NULL\n" +
                 ")");
 
-        statement.execute("CREATE TABLE IF NOT EXISTS`products` (\n" +
+        statement.execute("CREATE TABLE `products` (\n" +
                 "\t`id`\tINTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 "\t`name`\tTEXT,\n" +
                 "\t`description`\tTEXT,\n" +
                 "\t`price`\tNUMERIC DEFAULT 0.00,\n" +
-                "\t`category_id`\tINT,\n" +
-                "\t`supplier_id`\tINT,\n" +
-                "\tFOREIGN KEY(`category_id`) REFERENCES `suppliers`(`id`)\n" +
+                "\t`category_id`\tINTEGER,\n" +
+                "\t`supplier_id`\tINTEGER,\n" +
+                "\tFOREIGN KEY(`category_id`) REFERENCES `categories`(`id`),\n" +
+                "\tFOREIGN KEY(`supplier_id`) REFERENCES `suppliers`(`id`)\n" +
                 ");");
         System.out.println("Tables created!");
     }
