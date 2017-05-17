@@ -15,7 +15,7 @@ public class Application {
         try {
             this.connectToDb();
             System.out.println("Connection established!");
-            this.routs();
+            this.dispatchRoutes();
 
         } catch (SQLException e) {
             System.out.println("Application initialization failed");
@@ -29,7 +29,7 @@ public class Application {
     }
 
 
-    public void routs() {
+    public void dispatchRoutes() {
         exception(Exception.class, (e, req, res) -> e.printStackTrace());
         staticFileLocation("/public");
         port(8888);
