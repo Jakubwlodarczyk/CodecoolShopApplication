@@ -2,10 +2,7 @@ package com.codecool.shop.dao;
 
 import com.codecool.shop.model.ProductCategory;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,5 +61,7 @@ public class ProductCategoryDaoSqlite implements ProductCategoryDao {
         }
         return categories;
     }
+
+
 
 }
