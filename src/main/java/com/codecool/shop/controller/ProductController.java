@@ -41,6 +41,12 @@ public class ProductController {
         return new ThymeleafTemplateEngine().render(new ModelAndView(params, "product/index"));
         }
 
+    public String deleteFromBasket(Request req, Response res) {
+        Integer id = Integer.parseInt(req.queryParams("id"));
+
+        return "You are in deleteFrom Basket method";
+    }
+
     public String addToBasket(Request req, Response res) {
         Integer id = Integer.parseInt(req.queryParams("id"));
         Integer quantity = Integer.parseInt(req.queryParams("quantity"));

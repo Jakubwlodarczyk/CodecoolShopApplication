@@ -26,6 +26,20 @@
     <link rel="stylesheet" type="text/css" href="/css/custom.css" />
 </head>
 <body>
+
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">Home</a>
+        </div>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="basket.html"
+                   th:href="@{~/basket}"><span class="glyphicon glyphicon-shopping-cart"></span> Cart</a></li>
+        </ul>
+    </div>
+</nav>
+
+
 <div class="jumbotron text-center">
     <h3>Products in Basket</h3>
 </div>
@@ -39,6 +53,7 @@
                 <th>Opis</th>
                 <th>Kategoria</th>
                 <th>Ilość</th>
+                <th>Usuń</th>
             </tr>
             <div th:each="item: ${basketItems}">
             <tr>
@@ -47,6 +62,14 @@
                 <td th:text="${item.getProduct().getDescription()}"></td>
                 <td th:text="${item.getProduct().getProductCategory().getName()}"></td>
                 <td th:text="${item.getQuantity()}"></td>
+                <td>
+                    <form method="post" action="/delete-from-basket">
+                        <input type="hidden" th:value="${item.getProduct().getId()}"
+                            name="id" />
+                        <input min="0" th:max="${item.getQuantity()}" type="number" value="0" name="quantity"/>
+                        <button class="btn btn-success" type="submit">Delete</button>
+                    </form>
+                </td>
             </tr>
             </div>
         </table>
