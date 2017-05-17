@@ -1,7 +1,7 @@
 package com.codecool.shop.dao;
 
 
-public enum ErrorsSqlite {
+public enum SQLiteErrorCode {
     UNKNOWN_ERROR(-1, "unknown error"),
     SQLITE_OK(0, "Successful!"),
     SQLITE_ERROR(1, "SQL error or missing database"),
@@ -12,15 +12,15 @@ public enum ErrorsSqlite {
     public final int errorNum;
     public final String errorMessage;
 
-    private ErrorsSqlite(int errorNum, String errorMessage)
+    SQLiteErrorCode(int errorNum, String errorMessage)
     {
         this.errorNum = errorNum;
         this.errorMessage = errorMessage;
     }
 
-    public static ErrorsSqlite getErrorCode(int errorCode)
+    public static SQLiteErrorCode getErrorCode(int errorCode)
     {
-        for (ErrorsSqlite each : ErrorsSqlite.values())
+        for (SQLiteErrorCode each : SQLiteErrorCode.values())
         {
             if (errorCode == each.errorNum)
                 return each;
