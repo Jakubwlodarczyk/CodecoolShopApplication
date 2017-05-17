@@ -1,0 +1,12 @@
+INSERT INTO products (name, description, price, category_id, supplier_id) VALUES ('product1', 'description1', 10.00, 1, 1);
+INSERT INTO products (name, description, price, category_id, supplier_id) VALUES ('product2', 'description2', 20.00, 1, 1);
+INSERT INTO products (name, description, price, category_id, supplier_id) VALUES ('product3', 'description3', 30.00, 2, 2);
+INSERT INTO products (name, description, price, category_id, supplier_id) VALUES ('product4', 'description4', 40.00, 2, 2);
+INSERT INTO products (name, description, price, category_id, supplier_id) VALUES ('product5', 'description5', 50.00, 3, 3);
+INSERT INTO products (name, description, price, category_id, supplier_id) VALUES ('product6', 'description6', 60.00, 3, 3);
+INSERT INTO categories (name, description, department)VALUES ('category1', 'description1', 'department1');
+INSERT INTO categories (name, description, department)VALUES ('category2', 'description1', 'department2');
+INSERT INTO categories (name, description, department)VALUES ('category3', 'description1', 'department3');
+INSERT INTO suppliers (name, description)VALUES ('supplier1', 'description1');
+INSERT INTO suppliers (name, description)VALUES ('supplier2', 'description2');
+INSERT INTO suppliers (name, description)VALUES ('supplier3', 'description3');

@@ -1,0 +1,3 @@
+PRAGMA writable_schema = 1;
+delete from sqlite_master where type = 'table';
+PRAGMA writable_schema = 0;
