@@ -1,6 +1,8 @@
 package com.codecool.shop.dao;
 
 
+import java.sql.SQLException;
+
 public enum SQLiteErrorCode {
     UNKNOWN_ERROR(-1, "unknown error"),
     SQLITE_OK(0, "Successful!"),
