@@ -26,10 +26,14 @@ public class ProductController {
 
 
     public String renderListProducts(Request req, Response res) {
-        Map<String, List> params = new HashMap<>();
+        List<ProductCategory> categories = productCategoryDao.getAll();
+        List<Supplier> suppliers = supplierDao.getAll();
         List<Product> products = productDao.getAll();
-        params = new HashMap();
+        Map<String, Object> params = new HashMap();
         params.put("products", products);
+        params.put("categories", categories);
+        params.put("suppliers", suppliers);
+
         if (req.session().attribute("basket") == null) {
             req.session().attribute("basket", new Basket());
             System.out.println("Basket established");
@@ -48,23 +52,31 @@ public class ProductController {
         return "";
     }
 
-    public void listProductByCategory() {
+    public String renderListProductByCategory(Request req, Response res) {
         List<ProductCategory> categories = productCategoryDao.getAll();
-        this.view.displayListProductByCategory(categories);
-
-        Integer categoryId = UserInput.getUserInput();
-        ProductCategory productCategory = productCategoryDao.find(categoryId);
-        List<Product> products = productDao.getBy(productCategory);
-        this.view.displayProductList(products);
+        List<Supplier> suppliers = supplierDao.getAll();
+        String categoryId = req.queryParams("selectCategory");
+        ProductCategory category = productCategoryDao.find(Integer.parseInt(categoryId));
+        List<Product> products = productDao.getBy(category);
+        Map<String, Object> params = new HashMap();
+        params.put("products", products);
+        params.put("categories", categories);
+        params.put("suppliers", suppliers);
+        params.put("category", category.getName());
+        return new ThymeleafTemplateEngine().render(new ModelAndView(params, "product/index"));
     }
 
-    public void listProductsBySupplier() {
+    public String renderListProductsBySupplier(Request req, Response res) {
+        List<ProductCategory> categories = productCategoryDao.getAll();
         List<Supplier> suppliers = supplierDao.getAll();
-        this.view.displayListProductBySupplier(suppliers);
-
-        Integer supplierId = UserInput.getUserInput();
-        Supplier supplier = supplierDao.find(supplierId);
+        String supplierId = req.queryParams("selectSupplier");
+        Supplier supplier = supplierDao.find(Integer.parseInt(supplierId));
         List<Product> products = productDao.getBy(supplier);
-        this.view.displayProductList(products);
+        Map<String, Object> params = new HashMap();
+        params.put("products", products);
+        params.put("suppliers", suppliers);
+        params.put("categories", categories);
+        params.put("supplier", supplier.getName());
+        return new ThymeleafTemplateEngine().render(new ModelAndView(params, "product/index"));
     }
 }
