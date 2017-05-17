@@ -26,6 +26,7 @@ public class BasketController {
     BasketView basketView = new BasketView();
 
     public String renderListBasketItems(Request req, Response res) {
+        Basket basket = req.session().attribute("basket");
         List<BasketItem> basketList = basket.getItems();
         Map<String, List> params = new HashMap<>();
         params.put("basketItems", basketList);
@@ -35,7 +36,6 @@ public class BasketController {
     public void addToCartAction(){
       List<Product> products = this.productDao.getAll();
         this.view.displayProductList(products);
-
         System.out.println("Select product by giving it's id:");
         Integer productId = UserInput.getUserInput();
         Product product = productDao.find(productId);

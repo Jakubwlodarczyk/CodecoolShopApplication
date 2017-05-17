@@ -2,12 +2,11 @@ package com.codecool.shop;
 
 import com.codecool.shop.controller.BasketController;
 import com.codecool.shop.controller.ProductController;
-<<<<<<< HEAD
+
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 
-=======
 import com.codecool.shop.model.Basket;
->>>>>>> 5f23d811d38abbf395672578def732bc1cac5c7d
+
 import static spark.Spark.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
