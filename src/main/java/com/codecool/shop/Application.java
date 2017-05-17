@@ -10,7 +10,6 @@ import java.sql.SQLException;
 public class Application {
     private Connection connection;
     private ProductController productController = new ProductController();
-    private static Basket basket = new Basket();
     public Application() {
 
         try {
