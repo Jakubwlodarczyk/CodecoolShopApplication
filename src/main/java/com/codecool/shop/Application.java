@@ -15,33 +15,33 @@ public class Application {
 
         try {
             this.connectToDb();
-            System.out.println("Connection established!");
-            if(args.length>0){
-                String dropArgument = "--init-db";
-                String createTablesArgument = "--migrate-db";
-                if (dropArgument.equals(args[0])) {
-                    SqliteJDBCConnector.dropTables();
-                    SqliteJDBCConnector.createTables();
-                    SqliteJDBCConnector.seedUpTablesWithDumpData();
-                } else if (createTablesArgument.equals(args[0])) {
-                    SqliteJDBCConnector.createTables();
-            }
-
-            }
-            this.dispatchRoutes();
+            this.run(args);
 
         } catch (SQLException e) {
-            System.out.println("Application initialization failed");
-            e.printStackTrace();
+           e.printStackTrace();
         }
     }
+    private void run(String[] args) throws SQLException {
+        if(args.length>0){
+            String dropArgument = "--init-db";
+            String createTablesArgument = "--migrate-db";
+            if (dropArgument.equals(args[0])) {
+                SqliteJDBCConnector.dropTables();
+                SqliteJDBCConnector.createTables();
+                SqliteJDBCConnector.seedUpTablesWithDumpData();
+            } else if (createTablesArgument.equals(args[0])) {
+                SqliteJDBCConnector.createTables();
+            }
+        }
+        this.dispatchRoutes();
+    }
 
-    public void connectToDb() throws SQLException {
+    private void connectToDb() throws SQLException {
         System.out.println("Connecting to DB...");
         this.connection = DriverManager.getConnection("jdbc:sqlite:src/main/resources/database.db");
     }
 
-    public void dispatchRoutes() {
+    private void dispatchRoutes() {
 
         exception(Exception.class, (e, req, res) -> e.printStackTrace());
         staticFileLocation("/public");
