@@ -1,0 +1,1 @@
+CREATE TABLE IF NOT EXISTS `products` (`id`INTEGER PRIMARY KEY AUTOINCREMENT,`name`TEXT,`description`TEXT,`price`NUMERIC DEFAULT 0.00,`category_id`INTEGER,`supplier_id`INTEGER,FOREIGN KEY(`category_id`) REFERENCES `categories`(`id`),FOREIGN KEY(`supplier_id`) REFERENCES `suppliers`(`id`));

@@ -9,6 +9,7 @@ import com.codecool.shop.model.Basket;
 
 import com.codecool.shop.dao.SqliteJDBCConnector;
 import static spark.Spark.*;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -24,21 +25,20 @@ public class Application {
             this.connectToDb();
             System.out.println("Connection established!");
             if(args.length>0){
-                String dropArgument = "--init-db";
-                String createTablesArgument = "--migrate-db";
-                if (dropArgument.equals(args[0])) {
+                if (args[0].equals("--init-db")) {
                     SqliteJDBCConnector.dropTables();
                     SqliteJDBCConnector.createTables();
                     SqliteJDBCConnector.seedUpTablesWithDumpData();
-                } else if (createTablesArgument.equals(args[0])) {
+                } else if (args[0].equals("--migrate-db")) {
                     SqliteJDBCConnector.createTables();
-            }
-
+                }
             }
             this.dispatchRoutes();
 
         } catch (SQLException e) {
             System.out.println("Application initialization failed");
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
