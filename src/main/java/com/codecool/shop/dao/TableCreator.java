@@ -6,7 +6,7 @@ import java.io.*;
 import java.sql.*;
 import java.util.List;
 
-public class SqliteJDBCConnector {
+public class TableCreator {
 
     public static void createTables() throws SQLException, IOException {
         executeQueries(createListOfQueries("createCategoriesTableQuery"));
@@ -18,7 +18,6 @@ public class SqliteJDBCConnector {
     public static List<String> createListOfQueries(String fileName) throws SQLException, IOException {
         return FileUtils.readLines(new File("src/main/resources/public/data/" + fileName), "utf-8");
     }
-
 
     public static void dropTables() throws SQLException, IOException {
         executeQueries(createListOfQueries("dropTablesQuery"));
