@@ -1,56 +1,73 @@
 package com.codecool.shop;
 
+import com.codecool.shop.controller.BasketController;
 import com.codecool.shop.controller.ProductController;
+
 import com.codecool.shop.dao.SqliteJDBCConnector;
 import static spark.Spark.*;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Application {
+    private static Application app = null;
     private Connection connection;
     private ProductController productController = new ProductController();
+    private BasketController basketController = new BasketController();
 
-    public Application(String[] args) throws SQLException {
+    private Application(String[] args) throws SQLException {
 
         try {
-            this.connectToDb();
+            this.getConnection();
             this.run(args);
 
         } catch (SQLException e) {
-           e.printStackTrace();
+            System.out.println("Application initialization failed");
+            e.printStackTrace();
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
-    private void run(String[] args) throws SQLException {
+
+    private void run(String[] args) throws SQLException, IOException {
+
+        System.out.println("Connection established!");
         if(args.length>0){
-            String dropArgument = "--init-db";
-            String createTablesArgument = "--migrate-db";
-            if (dropArgument.equals(args[0])) {
+            if (args[0].equals("--init-db")) {
                 SqliteJDBCConnector.dropTables();
                 SqliteJDBCConnector.createTables();
                 SqliteJDBCConnector.seedUpTablesWithDumpData();
-            } else if (createTablesArgument.equals(args[0])) {
+            } else if (args[0].equals("--migrate-db")) {
                 SqliteJDBCConnector.createTables();
             }
         }
         this.dispatchRoutes();
     }
 
-    private void connectToDb() throws SQLException {
-        System.out.println("Connecting to DB...");
-        this.connection = DriverManager.getConnection("jdbc:sqlite:src/main/resources/database.db");
+    public Connection getConnection() throws SQLException {
+        connection = DriverManager.getConnection("jdbc:sqlite:src/main/resources/database.db");
+        return connection;
     }
 
     private void dispatchRoutes() {
-
         exception(Exception.class, (e, req, res) -> e.printStackTrace());
         staticFileLocation("/public");
         port(8888);
-
         get("/", (req, res) -> this.productController.renderListProducts(req, res));
+        get ("/basket", (req, res) -> this.basketController.renderListBasketItems(req, res));
         post("/byCategory", (req, res) -> this.productController.renderListProductByCategory(req,res));
         post("/bySupplier", (req, res) -> this.productController.renderListProductsBySupplier(req,res));
         post("/add-to-basket", (req, res) -> this.productController.addToBasket(req, res));
 
+        post("/delete-from-basket", (req, res) -> this.productController.deleteFromBasket(req, res));
+
+    }
+    public static Application getApplication(String[] args) throws SQLException {
+        if(app == null) {
+            app = new Application(args);
+        }
+        return app;
     }
 }

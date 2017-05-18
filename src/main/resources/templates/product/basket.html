@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="author" content="Codecool" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Basket</title>
+
+    <!-- Latest compiled and minified Jquery -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous" />
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" type="text/css" href="/css/custom.css" />
+</head>
+<body>
+
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">Home</a>
+        </div>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="basket.html"
+                   th:href="@{~/basket}"><span class="glyphicon glyphicon-shopping-cart"></span> Cart</a></li>
+        </ul>
+    </div>
+</nav>
+
+
+<div class="jumbotron text-center">
+    <h3>Products in Basket</h3>
+</div>
+<div class="container">
+    <div class="row">
+    <div class="col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1">
+        <table class="table table-striped">
+            <tr>
+                <th></th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Category</th>
+                <th>Quantity</th>
+                <th>Remove</th>
+            </tr>
+            <div th:each="item: ${basketItems}">
+            <tr>
+                <td th:text="${itemStat.count}"></td>
+                <td th:text="${item.getProduct().getName()}"></td>
+                <td th:text="${item.getProduct().getDescription()}"></td>
+                <td th:text="${item.getProduct().getProductCategory().getName()}"></td>
+                <td th:text="${item.getQuantity()}"></td>
+                <td>
+                    <form method="post" action="/delete-from-basket">
+                        <input type="hidden" th:value="${item.getProduct().getId()}"
+                            name="id" />
+                        <input min="0" th:max="${item.getQuantity()}" type="number" value="0" name="quantity"/>
+                        <button class="btn btn-success" type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            </div>
+        </table>
+    </div>
+    </div>
+</div>
+<div th:replace="footer :: copy"></div>
+</body>
+</html>

@@ -61,13 +61,20 @@
             </div>
         </form>
         <ul class="nav navbar-nav navbar-right">
-            <li><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span> Cart</a></li>
+            <li><a href="basket.html"
+                   th:href="@{~/basket}"><span class="glyphicon glyphicon-shopping-cart"></span> Cart</a></li>
         </ul>
     </div>
 </nav>
 
 <div class="container">
+
+    <div th:if="${purchased}" class="alert alert-success alert-dismissable">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong th:text="${quantity}"></strong> <strong th:text="${purchased.getName()}"></strong> added to cart!
+    </div>
     <div th:if="${category!= null}" class="well well-sm">
+
         <h3  th:text="${category}"></h3>
     </div>
     <div th:if="${supplier!= null}" class="well well-sm">
@@ -75,7 +82,6 @@
     </div>
 
     <div id="products" class="row list-group">
-
         <div class="item col-xs-4 col-lg-4" th:each="prod,iterStat : ${products}">
             <div class="thumbnail">
                 <img class="group list-group-image" src="http://placehold.it/400x250/000/fff" th:attr="src='/img/product_' + ${prod.id} + '.jpg'" alt="" />
@@ -100,8 +106,6 @@
     </div>
 
 </div>
-
 <div th:replace="footer :: copy"></div>
-
 </body>
 </html>

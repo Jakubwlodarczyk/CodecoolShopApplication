@@ -19,10 +19,28 @@ public class Basket {
             BasketItem item = new BasketItem(product, quantity);
             this.getItems().add(item);
         }
+        System.out.println("all items in basket is:" + this.getItems());
     }
 
+    public boolean remove(Product product, Integer quantity) {
+        for (BasketItem item : this.getItems()) {
+            if (item.getProduct().getId() == product.getId()) {
+                if (quantity < item.getQuantity()) {
+                    item.setQuantity(item.getQuantity() - quantity);
+                    return true;
+                    }
+                if ( quantity.equals(item.getQuantity()) ) {
+                    this.getItems().remove(item);
+                    return true;
+                }
+                }
+            }
+        return false;
+    }
+
+
     public List<BasketItem> getItems() {
-        return items;
+        return this.items;
     }
 
     public void setItems(List<BasketItem> items) {
