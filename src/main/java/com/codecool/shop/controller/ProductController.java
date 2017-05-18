@@ -10,6 +10,8 @@ import spark.ModelAndView;
 import spark.Response;
 import spark.Request;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
+
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +23,7 @@ public class ProductController {
     private ProductDaoSqlite proDaoSql = new ProductDaoSqlite();
 
 
-    public String renderListProducts(Request req, Response res) {
+    public String renderListProducts(Request req, Response res) throws SQLException {
         List<ProductCategory> categories = productCategoryDao.getAll();
         List<Supplier> suppliers = supplierDao.getAll();
         List<Product> products = productDao.getAll();
@@ -46,7 +48,7 @@ public class ProductController {
         }
 
 
-    public String addToBasket(Request req, Response res) {
+    public String addToBasket(Request req, Response res) throws SQLException {
         Integer id = Integer.parseInt(req.queryParams("id"));
         Integer quantity = Integer.parseInt(req.queryParams("quantity"));
         Product product = proDaoSql.find(id);
@@ -58,7 +60,7 @@ public class ProductController {
         return "";
     }
 
-    public String deleteFromBasket(Request req, Response res) {
+    public String deleteFromBasket(Request req, Response res) throws SQLException {
         boolean isRemoved;
         Integer id = Integer.parseInt(req.queryParams("id"));
         Integer quantity = Integer.parseInt(req.queryParams("quantity"));
@@ -70,7 +72,7 @@ public class ProductController {
         return "";
     }
 
-    public String renderListProductByCategory(Request req, Response res) {
+    public String renderListProductByCategory(Request req, Response res) throws SQLException {
         List<ProductCategory> categories = productCategoryDao.getAll();
         List<Supplier> suppliers = supplierDao.getAll();
         String categoryId = req.queryParams("selectCategory");
@@ -84,7 +86,7 @@ public class ProductController {
         return new ThymeleafTemplateEngine().render(new ModelAndView(params, "product/index"));
     }
 
-    public String renderListProductsBySupplier(Request req, Response res) {
+    public String renderListProductsBySupplier(Request req, Response res) throws SQLException {
         List<ProductCategory> categories = productCategoryDao.getAll();
         List<Supplier> suppliers = supplierDao.getAll();
         String supplierId = req.queryParams("selectSupplier");

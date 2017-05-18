@@ -1,23 +1,12 @@
 package com.codecool.shop.dao;
 
+import com.codecool.shop.Application;
 import org.apache.commons.io.FileUtils;
 import java.io.*;
 import java.sql.*;
 import java.util.List;
 
 public class SqliteJDBCConnector {
-
-    public static Connection connection() {
-        Connection connection = null;
-
-        try {
-            connection = DriverManager.getConnection("jdbc:sqlite:src/main/resources/database.db");
-        } catch (SQLException e) {
-            System.out.println("Connection to database failed.");
-            System.out.println(e.getMessage());
-        }
-        return connection;
-    }
 
     public static void createTables() throws SQLException, IOException {
         executeQueries(createListOfQueries("createCategoriesTableQuery"));
@@ -42,7 +31,7 @@ public class SqliteJDBCConnector {
     }
 
     public static void executeQueries(List<String> queries) throws SQLException {
-        Connection connection = connection();
+        Connection connection = Application.getApplication().getConnection();
         Statement statement = connection.createStatement();
         for (String line : queries) {
             statement.execute(line);

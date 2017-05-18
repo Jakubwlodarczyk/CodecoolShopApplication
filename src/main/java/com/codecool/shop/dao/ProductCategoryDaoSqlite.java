@@ -6,30 +6,26 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductCategoryDaoSqlite implements ProductCategoryDao {
+public class ProductCategoryDaoSqlite extends BaseDao implements ProductCategoryDao {
 
     @Override
     public void add(ProductCategory category) {
     }
 
     @Override
-    public ProductCategory find(int id) {
+    public ProductCategory find(int id) throws SQLException{
         ProductCategory category = null;
-        try {
-            Connection connection = SqliteJDBCConnector.connection();
-            Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("select * from categories WHERE id="+ id);
-            while(rs.next()) {
-                category = new ProductCategory(
-                        rs.getString("name"),
-                        rs.getString("description"),
-                        rs.getString("department")
-                );
-                category.setId(rs.getInt("id"));
-            }
-        } catch (SQLException e) {
-            System.out.println("Connection to database failed.");
-            System.out.println(e.getMessage());
+
+        PreparedStatement statement = this.getConnection().prepareStatement("select * from categories WHERE id=?");
+        statement.setInt(1, id);
+        ResultSet rs = statement.executeQuery();
+        while(rs.next()) {
+            category = new ProductCategory(
+                    rs.getString("name"),
+                    rs.getString("description"),
+                    rs.getString("department")
+            );
+            category.setId(rs.getInt("id"));
         }
         return category;
     }
@@ -39,13 +35,11 @@ public class ProductCategoryDaoSqlite implements ProductCategoryDao {
     }
 
     @Override
-    public List<ProductCategory> getAll() {
-        List<ProductCategory> categories = new ArrayList<ProductCategory>();
+    public List<ProductCategory> getAll() throws SQLException {
+        List<ProductCategory> categories = new ArrayList<>();
 
-        try {
-            Connection connection = SqliteJDBCConnector.connection();
-            Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("select * from categories");
+            PreparedStatement statement = this.getConnection().prepareStatement("select * from categories");
+            ResultSet rs = statement.executeQuery();
             while(rs.next()) {
                 ProductCategory category = new ProductCategory(
                         rs.getString("name"),
@@ -55,13 +49,6 @@ public class ProductCategoryDaoSqlite implements ProductCategoryDao {
                 category.setId(rs.getInt("id"));
                 categories.add(category);
             }
-        } catch (SQLException e) {
-            System.out.println("Connection to database failed.");
-            System.out.println(e.getMessage());
-        }
         return categories;
     }
-
-
-
 }

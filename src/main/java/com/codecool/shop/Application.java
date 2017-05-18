@@ -2,7 +2,6 @@ package com.codecool.shop;
 
 import com.codecool.shop.controller.BasketController;
 import com.codecool.shop.controller.ProductController;
-
 import com.codecool.shop.dao.SqliteJDBCConnector;
 import static spark.Spark.*;
 import java.io.IOException;
@@ -11,39 +10,37 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Application {
-    private static Application app = null;
+    private static Application app;
     private Connection connection;
     private ProductController productController = new ProductController();
     private BasketController basketController = new BasketController();
 
-    private Application(String[] args) throws SQLException {
-
+    private Application() {
         try {
             this.getConnection();
-            this.run(args);
-
+            this.dispatchRoutes();
         } catch (SQLException e) {
             System.out.println("Application initialization failed");
             e.printStackTrace();
+        }
+    }
 
+    public void initializeTables() throws SQLException {
+        try {
+            SqliteJDBCConnector.dropTables();
+            SqliteJDBCConnector.createTables();
+            SqliteJDBCConnector.seedUpTablesWithDumpData();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void run(String[] args) throws SQLException, IOException {
-
-        System.out.println("Connection established!");
-        if(args.length>0){
-            if (args[0].equals("--init-db")) {
-                SqliteJDBCConnector.dropTables();
-                SqliteJDBCConnector.createTables();
-                SqliteJDBCConnector.seedUpTablesWithDumpData();
-            } else if (args[0].equals("--migrate-db")) {
-                SqliteJDBCConnector.createTables();
-            }
+    public void migrateTables() throws SQLException {
+        try {
+            SqliteJDBCConnector.createTables();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        this.dispatchRoutes();
     }
 
     public Connection getConnection() throws SQLException {
@@ -64,9 +61,10 @@ public class Application {
         post("/delete-from-basket", (req, res) -> this.productController.deleteFromBasket(req, res));
 
     }
-    public static Application getApplication(String[] args) throws SQLException {
+
+    public static Application getApplication() {
         if(app == null) {
-            app = new Application(args);
+            app = new Application();
         }
         return app;
     }
