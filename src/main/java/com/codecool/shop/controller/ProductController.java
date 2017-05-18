@@ -1,6 +1,5 @@
 package com.codecool.shop.controller;
 
-
 import com.codecool.shop.dao.*;
 import com.codecool.shop.model.Basket;
 import com.codecool.shop.model.Product;
@@ -10,7 +9,6 @@ import spark.ModelAndView;
 import spark.Response;
 import spark.Request;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
-
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
@@ -61,13 +59,11 @@ public class ProductController {
     }
 
     public String deleteFromBasket(Request req, Response res) throws SQLException {
-        boolean isRemoved;
         Integer id = Integer.parseInt(req.queryParams("id"));
         Integer quantity = Integer.parseInt(req.queryParams("quantity"));
         Product product = proDaoSql.find(id);
         Basket basket = req.session().attribute("basket");
-        isRemoved = basket.remove(product, quantity);
-        System.out.println("Total quantity of items in basket: " + basket.getTotalCount());
+        basket.remove(product, quantity);
         res.redirect("/basket");
         return "";
     }
