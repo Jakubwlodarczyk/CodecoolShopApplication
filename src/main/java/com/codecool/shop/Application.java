@@ -2,7 +2,7 @@ package com.codecool.shop;
 
 import com.codecool.shop.controller.BasketController;
 import com.codecool.shop.controller.ProductController;
-import com.codecool.shop.dao.TableCreator;
+import com.codecool.shop.dao.TablesCreator;
 import static spark.Spark.*;
 import java.io.IOException;
 import java.sql.Connection;
@@ -55,9 +55,9 @@ public class Application {
 
     public void initializeTables() throws SQLException {
         try {
-            TableCreator.dropTables();
-            TableCreator.createTables();
-            TableCreator.seedUpTablesWithDumpData();
+            TablesCreator.dropTables();
+            TablesCreator.createTables();
+            TablesCreator.seedUpTablesWithDumpData();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -65,7 +65,7 @@ public class Application {
 
     public void migrateTables() throws SQLException {
         try {
-            TableCreator.createTables();
+            TablesCreator.createTables();
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -6,7 +6,7 @@ import java.io.*;
 import java.sql.*;
 import java.util.List;
 
-public class TableCreator {
+public class TablesCreator {
 
     public static void createTables() throws SQLException, IOException {
         executeQueries(createListOfQueries("createCategoriesTableQuery"));
