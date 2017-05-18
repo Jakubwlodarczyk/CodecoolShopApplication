@@ -3,10 +3,6 @@ package com.codecool.shop;
 import com.codecool.shop.controller.BasketController;
 import com.codecool.shop.controller.ProductController;
 
-import spark.template.thymeleaf.ThymeleafTemplateEngine;
-
-import com.codecool.shop.model.Basket;
-
 import com.codecool.shop.dao.SqliteJDBCConnector;
 import static spark.Spark.*;
 import java.io.IOException;
@@ -15,6 +11,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Application {
+    private static Application app = null;
     private Connection connection;
     private ProductController productController = new ProductController();
     private BasketController basketController = new BasketController();
@@ -38,6 +35,7 @@ public class Application {
         } catch (SQLException e) {
             System.out.println("Application initialization failed");
             e.printStackTrace();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -61,5 +59,11 @@ public class Application {
 
         post("/delete-from-basket", (req, res) -> this.productController.deleteFromBasket(req, res));
 
+    }
+    public static Application getApplication(String[] args) throws SQLException {
+        if(app == null) {
+            app = new Application(args);
+        }
+        return app;
     }
 }
