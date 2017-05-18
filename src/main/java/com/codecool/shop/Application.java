@@ -14,6 +14,7 @@ public class Application {
     private Connection connection;
     private ProductController productController = new ProductController();
     private BasketController basketController = new BasketController();
+    private SqliteJDBCConnector sqliteJDBCConnector = new SqliteJDBCConnector();
 
     private Application() {
         try {
@@ -32,9 +33,9 @@ public class Application {
 
     public void initializeTables() throws SQLException {
         try {
-            SqliteJDBCConnector.dropTables();
-            SqliteJDBCConnector.createTables();
-            SqliteJDBCConnector.seedUpTablesWithDumpData();
+            sqliteJDBCConnector.dropTables();
+            sqliteJDBCConnector.createTables();
+            sqliteJDBCConnector.seedUpTablesWithDumpData();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -42,7 +43,7 @@ public class Application {
 
     public void migrateTables() throws SQLException {
         try {
-            SqliteJDBCConnector.createTables();
+            sqliteJDBCConnector.createTables();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -62,7 +63,6 @@ public class Application {
         post("/byCategory", (req, res) -> this.productController.renderListProductByCategory(req,res));
         post("/bySupplier", (req, res) -> this.productController.renderListProductsBySupplier(req,res));
         post("/add-to-basket", (req, res) -> this.productController.addToBasket(req, res));
-
         post("/delete-from-basket", (req, res) -> this.productController.deleteFromBasket(req, res));
 
     }
