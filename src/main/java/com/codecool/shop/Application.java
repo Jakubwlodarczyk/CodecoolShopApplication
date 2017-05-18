@@ -14,11 +14,17 @@ public class Application {
     private Connection connection;
     private ProductController productController = new ProductController();
     private BasketController basketController = new BasketController();
+    private SqliteJDBCConnector sqliteJDBCConnector = new SqliteJDBCConnector();
 
     private Application() {
         try {
             this.setConnection();
             this.dispatchRoutes();
+            Runtime.getRuntime().addShutdownHook(new Thread() {
+                public void run() {
+                    System.out.println("Bye bye :( ");
+                }
+            });
         } catch (SQLException e) {
             System.out.println("Application initialization failed");
             e.printStackTrace();
@@ -31,9 +37,9 @@ public class Application {
 
     public void initializeTables() throws SQLException {
         try {
-            SqliteJDBCConnector.dropTables();
-            SqliteJDBCConnector.createTables();
-            SqliteJDBCConnector.seedUpTablesWithDumpData();
+            sqliteJDBCConnector.dropTables();
+            sqliteJDBCConnector.createTables();
+            sqliteJDBCConnector.seedUpTablesWithDumpData();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -41,7 +47,7 @@ public class Application {
 
     public void migrateTables() throws SQLException {
         try {
-            SqliteJDBCConnector.createTables();
+            sqliteJDBCConnector.createTables();
         } catch (IOException e) {
             e.printStackTrace();
         }
