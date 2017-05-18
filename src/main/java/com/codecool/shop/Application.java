@@ -17,12 +17,16 @@ public class Application {
 
     private Application() {
         try {
-            this.getConnection();
+            this.setConnection();
             this.dispatchRoutes();
         } catch (SQLException e) {
             System.out.println("Application initialization failed");
             e.printStackTrace();
         }
+    }
+
+    private void setConnection() throws SQLException {
+        this.connection = DriverManager.getConnection("jdbc:sqlite:src/main/resources/database.db");
     }
 
     public void initializeTables() throws SQLException {
@@ -44,7 +48,6 @@ public class Application {
     }
 
     public Connection getConnection() throws SQLException {
-        connection = DriverManager.getConnection("jdbc:sqlite:src/main/resources/database.db");
         return connection;
     }
 
@@ -57,7 +60,6 @@ public class Application {
         post("/byCategory", (req, res) -> this.productController.renderListProductByCategory(req,res));
         post("/bySupplier", (req, res) -> this.productController.renderListProductsBySupplier(req,res));
         post("/add-to-basket", (req, res) -> this.productController.addToBasket(req, res));
-
         post("/delete-from-basket", (req, res) -> this.productController.deleteFromBasket(req, res));
 
     }
@@ -67,5 +69,10 @@ public class Application {
             app = new Application();
         }
         return app;
+    }
+
+    public static void stopApplicationBoot() {
+        System.out.println("Database file not found, run this application with '--init-db' arguments");
+        System.exit(0);
     }
 }
