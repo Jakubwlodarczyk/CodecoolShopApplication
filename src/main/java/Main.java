@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 public class Main {
     public static void main(String[] args) throws SQLException, IOException {
-        File databse = new File("/home/jakub/Java/codecool-shops-forkineye2/src/main/resources/database.db");
+        File databse = new File("src/main/resources/database.db");
         if(args.length == 0 && !databse.exists()){
             Application.stopApplicationBoot();
         }
