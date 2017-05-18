@@ -16,7 +16,7 @@ public class Application {
     private ProductController productController = new ProductController();
     private BasketController basketController = new BasketController();
 
-    public Application(String[] args) throws SQLException{
+    private Application(String[] args) throws SQLException{
 
         try {
             this.connectToDb();
