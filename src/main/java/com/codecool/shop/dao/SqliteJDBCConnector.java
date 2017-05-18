@@ -1,89 +1,40 @@
 package com.codecool.shop.dao;
 
+import com.codecool.shop.Application;
+import org.apache.commons.io.FileUtils;
+import java.io.*;
 import java.sql.*;
+import java.util.List;
 
 public class SqliteJDBCConnector {
 
-    public static Connection connection() {
-        Connection connection = null;
-
-        try {
-            connection = DriverManager.getConnection("jdbc:sqlite:src/main/resources/database.db");
-        } catch (SQLException e) {
-            System.out.println("Connection to database failed.");
-            System.out.println(e.getMessage());
-        }
-        return connection;
-    }
-
-    public static void createTables() throws SQLException {
-        Connection connection = connection();
-        Statement statement = connection.createStatement();
-
-        statement.execute("CREATE TABLE IF NOT EXISTS \"categories\" (\n" +
-                "\t`id`\tINTEGER PRIMARY KEY AUTOINCREMENT,\n" +
-                "\t`name`\tTEXT NOT NULL,\n" +
-                "\t`description`\tTEXT NOT NULL,\n" +
-                "\t`department`\tTEXT NOT NULL\n" +
-                ")");
-
-        statement.execute("CREATE TABLE IF NOT EXISTS \"suppliers\" (\n" +
-                "\t`id`\tINTEGER PRIMARY KEY AUTOINCREMENT,\n" +
-                "\t`name`\tTEXT NOT NULL,\n" +
-                "\t`description`\tTEXT NOT NULL\n" +
-                ")");
-
-        statement.execute("CREATE TABLE `products` (\n" +
-                "\t`id`\tINTEGER PRIMARY KEY AUTOINCREMENT,\n" +
-                "\t`name`\tTEXT,\n" +
-                "\t`description`\tTEXT,\n" +
-                "\t`price`\tNUMERIC DEFAULT 0.00,\n" +
-                "\t`category_id`\tINTEGER,\n" +
-                "\t`supplier_id`\tINTEGER,\n" +
-                "\tFOREIGN KEY(`category_id`) REFERENCES `categories`(`id`),\n" +
-                "\tFOREIGN KEY(`supplier_id`) REFERENCES `suppliers`(`id`)\n" +
-                ");");
+    public static void createTables() throws SQLException, IOException {
+        executeQueries(createListOfQueries("createCategoriesTableQuery"));
+        executeQueries(createListOfQueries("createSuppliersTableQuery"));
+        executeQueries(createListOfQueries("createProductsTableQuery"));
         System.out.println("Tables created!");
     }
 
-    public static void dropTables() throws SQLException {
-        Connection connection = connection();
-        Statement statement = connection.createStatement();
-        statement.execute("PRAGMA writable_schema = 1;");
-        statement.execute("delete from sqlite_master where type = 'table';");
-        statement.execute("PRAGMA writable_schema = 0;");
+    public static List<String> createListOfQueries(String fileName) throws SQLException, IOException {
+        return FileUtils.readLines(new File("src/main/resources/public/data/" + fileName), "utf-8");
+    }
+
+
+    public static void dropTables() throws SQLException, IOException {
+        executeQueries(createListOfQueries("dropTablesQuery"));
         System.out.println("Tables dropped!");
     }
 
-    public static void seedUpTablesWithDumpData() throws SQLException {
-        Connection connection = connection();
+    public static void seedUpTablesWithDumpData() throws SQLException, IOException {
+        executeQueries(createListOfQueries("seedUpTablesWithDumpDataQuery"));
+        System.out.println("Dump data applied!");
+    }
+
+    public static void executeQueries(List<String> queries) throws SQLException {
+        Connection connection = Application.getApplication().getConnection();
         Statement statement = connection.createStatement();
-        statement.execute("INSERT INTO products (name, description, price, category_id, supplier_id)" +
-                "VALUES ('product1', 'description1', 10.00, 1, 1)");
-        statement.execute("INSERT INTO products (name, description, price, category_id, supplier_id)" +
-                "VALUES ('product2', 'description2', 20.00, 1, 1)");
-        statement.execute("INSERT INTO products (name, description, price, category_id, supplier_id)" +
-                "VALUES ('product3', 'description3', 30.00, 2, 2)");
-        statement.execute("INSERT INTO products (name, description, price, category_id, supplier_id)" +
-                "VALUES ('product4', 'description4', 40.00, 2, 2)");
-        statement.execute("INSERT INTO products (name, description, price, category_id, supplier_id)" +
-                "VALUES ('product5', 'description5', 50.00, 3, 3)");
-        statement.execute("INSERT INTO products (name, description, price, category_id, supplier_id)" +
-                "VALUES ('product6', 'description6', 60.00, 3, 3)");
-
-        statement.execute("INSERT INTO categories (name, description, department)" +
-                "VALUES ('category1', 'description1', 'department1')");
-        statement.execute("INSERT INTO categories (name, description, department)" +
-                "VALUES ('category2', 'description1', 'department2')");
-        statement.execute("INSERT INTO categories (name, description, department)" +
-                "VALUES ('category3', 'description1', 'department3')");
-
-        statement.execute("INSERT INTO suppliers (name, description)" +
-                "VALUES ('supplier1', 'description1')");
-        statement.execute("INSERT INTO suppliers (name, description)" +
-                "VALUES ('supplier2', 'description2')");
-        statement.execute("INSERT INTO suppliers (name, description)" +
-                "VALUES ('supplier3', 'description3')");
-
+        for (String line : queries) {
+            statement.execute(line);
+        }
     }
 }

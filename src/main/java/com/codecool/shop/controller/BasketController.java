@@ -14,6 +14,7 @@ import spark.Request;
 import spark.Response;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +26,7 @@ public class BasketController {
     Basket basket = new Basket();
     BasketView basketView = new BasketView();
 
-    public String renderListBasketItems(Request req, Response res) {
+    public String renderListBasketItems(Request req, Response res) throws SQLException {
         Basket basket = req.session().attribute("basket");
         List<BasketItem> basketList = basket.getItems();
         Map<String, List> params = new HashMap<>();
@@ -33,7 +34,7 @@ public class BasketController {
         return new ThymeleafTemplateEngine().render(new ModelAndView(params, "product/basket"));
     }
 
-    public void addToCartAction(){
+    public void addToCartAction() throws SQLException{
       List<Product> products = this.productDao.getAll();
         this.view.displayProductList(products);
         System.out.println("Select product by giving it's id:");
@@ -42,9 +43,4 @@ public class BasketController {
         this.basket.add(product, 1);
     }
 
-
-
-    public void displayCartAction() {
-        this.basketView.displayBasketItems(this.basket.getItems());
-    }
 }

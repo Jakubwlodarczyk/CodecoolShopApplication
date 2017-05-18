@@ -2,37 +2,31 @@ package com.codecool.shop.dao;
 
 import com.codecool.shop.model.Supplier;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SupplierDaoSqlite implements SupplierDao {
+public class SupplierDaoSqlite extends BaseDao implements SupplierDao {
     @Override
     public void add(Supplier supplier) {
 
     }
 
     @Override
-    public Supplier find(int id) {
+    public Supplier find(int id) throws SQLException {
         Supplier supplier = null;
-        try {
-            Connection connection = SqliteJDBCConnector.connection();
-            Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("select * from suppliers WHERE id="+ id);
-            while(rs.next()) {
-                supplier = new Supplier(
-                        rs.getString("name"),
-                        rs.getString("description")
-                );
-                supplier.setId(rs.getInt("id"));
-            }
-        } catch (SQLException e) {
-            System.out.println("Connection to database failed.");
-            System.out.println(e.getMessage());
+
+        PreparedStatement statement = this.getConnection().prepareStatement("select * from suppliers WHERE id=?");
+        statement.setInt(1, id);
+        ResultSet rs = statement.executeQuery();
+        while(rs.next()) {
+            supplier = new Supplier(
+                    rs.getString("name"),
+                    rs.getString("description")
+            );
+            supplier.setId(rs.getInt("id"));
         }
+
         return supplier;
     }
 
@@ -41,24 +35,18 @@ public class SupplierDaoSqlite implements SupplierDao {
     }
 
     @Override
-    public List<Supplier> getAll() {
+    public List<Supplier> getAll() throws SQLException {
         List<Supplier> suppliers = new ArrayList<>();
 
-        try {
-            Connection connection = SqliteJDBCConnector.connection();
-            Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("select * from suppliers");
-            while(rs.next()) {
-                Supplier supplier = new Supplier(
-                        rs.getString("name"),
-                        rs.getString("description")
-                );
-                supplier.setId(rs.getInt("id"));
-                suppliers.add(supplier);
-            }
-        } catch (SQLException e) {
-            System.out.println("Connection to database failed.");
-            System.out.println(e.getMessage());
+        PreparedStatement statement = this.getConnection().prepareStatement("select * from suppliers");
+        ResultSet rs = statement.executeQuery();
+        while(rs.next()) {
+            Supplier supplier = new Supplier(
+                    rs.getString("name"),
+                    rs.getString("description")
+            );
+            supplier.setId(rs.getInt("id"));
+            suppliers.add(supplier);
         }
         return suppliers;
     }

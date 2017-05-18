@@ -1,21 +1,16 @@
 package com.codecool.shop.dao;
 
+import com.codecool.shop.Application;
+
 import java.sql.Connection;
+import java.sql.SQLException;
 
 abstract class BaseDao {
 
         private Connection connection;
 
-        public BaseDao() {
-            Connection connection = SqliteJDBCConnector.connection();
-            this.setConnection(connection);
-        }
-
-        public void setConnection(Connection connection) {
-            this.connection = connection;
-        }
-
-        public Connection getConnection() {
+        public Connection getConnection() throws SQLException {
+            connection = Application.getApplication().getConnection();
             return connection;
         }
     }
