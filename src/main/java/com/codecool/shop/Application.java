@@ -2,7 +2,7 @@ package com.codecool.shop;
 
 import com.codecool.shop.controller.BasketController;
 import com.codecool.shop.controller.ProductController;
-import com.codecool.shop.dao.SqliteJDBCConnector;
+import com.codecool.shop.dao.TablesCreator;
 import static spark.Spark.*;
 import java.io.IOException;
 import java.sql.Connection;
@@ -14,7 +14,7 @@ public class Application {
     private Connection connection;
     private ProductController productController = new ProductController();
     private BasketController basketController = new BasketController();
-    private SqliteJDBCConnector sqliteJDBCConnector = new SqliteJDBCConnector();
+    private TablesCreator tablesCreator = new TablesCreator();
 
     private Application() {
         try {
@@ -37,9 +37,9 @@ public class Application {
 
     public void initializeTables() throws SQLException {
         try {
-            sqliteJDBCConnector.dropTables();
-            sqliteJDBCConnector.createTables();
-            sqliteJDBCConnector.seedUpTablesWithDumpData();
+            tablesCreator.dropTables();
+            tablesCreator.createTables();
+            tablesCreator.seedUpTablesWithDumpData();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -47,7 +47,7 @@ public class Application {
 
     public void migrateTables() throws SQLException {
         try {
-            sqliteJDBCConnector.createTables();
+            tablesCreator.createTables();
         } catch (IOException e) {
             e.printStackTrace();
         }

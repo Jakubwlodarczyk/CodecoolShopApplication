@@ -6,7 +6,7 @@ import java.io.*;
 import java.sql.*;
 import java.util.List;
 
-public class SqliteJDBCConnector {
+public class TablesCreator {
 
     public void createTables() throws SQLException, IOException {
         executeQueries(createListOfQueries("createCategoriesTableQuery"));
@@ -35,6 +35,7 @@ public class SqliteJDBCConnector {
         Statement statement = connection.createStatement();
         for (String line : queries) {
             statement.execute(line);
+            statement.close();
         }
     }
 }
