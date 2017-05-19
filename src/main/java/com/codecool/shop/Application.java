@@ -17,18 +17,6 @@ public class Application {
     private TablesCreator tablesCreator = new TablesCreator();
 
     private Application() {
-        try {
-            this.setConnection();
-            this.dispatchRoutes();
-            Runtime.getRuntime().addShutdownHook(new Thread() {
-                public void run() {
-                    System.out.println("Bye bye :( ");
-                }
-            });
-        } catch (SQLException e) {
-            System.out.println("Application initialization failed");
-            e.printStackTrace();
-        }
     }
 
     private void setConnection() throws SQLException {
@@ -75,6 +63,21 @@ public class Application {
             app = new Application();
         }
         return app;
+    }
+
+    public void run() {
+        try {
+            this.setConnection();
+            this.dispatchRoutes();
+            Runtime.getRuntime().addShutdownHook(new Thread() {
+                public void run() {
+                    System.out.println("Bye bye :( ");
+                }
+            });
+        } catch (SQLException e) {
+            System.out.println("Application initialization failed");
+            e.printStackTrace();
+        }
     }
 
     public static void stopApplicationBoot() {
