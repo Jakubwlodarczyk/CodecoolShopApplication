@@ -18,7 +18,6 @@ public class ProductController {
     private ProductDao productDao = new ProductDaoSqlite();
     private ProductCategoryDao productCategoryDao = new ProductCategoryDaoSqlite();
     private SupplierDao supplierDao = new SupplierDaoSqlite();
-    private ProductDaoSqlite proDaoSql = new ProductDaoSqlite();
 
 
     public String renderListProducts(Request req, Response res) throws SQLException {
@@ -44,29 +43,6 @@ public class ProductController {
         }
         return new ThymeleafTemplateEngine().render(new ModelAndView(params, "product/index"));
         }
-
-
-    public String addToBasket(Request req, Response res) throws SQLException {
-        Integer id = Integer.parseInt(req.queryParams("id"));
-        Integer quantity = Integer.parseInt(req.queryParams("quantity"));
-        Product product = proDaoSql.find(id);
-        Basket basket = req.session().attribute("basket");
-        basket.add(product, quantity);
-        req.session().attribute("product", product);
-        req.session().attribute("quantity", quantity);
-        res.redirect("/");
-        return "";
-    }
-
-    public String deleteFromBasket(Request req, Response res) throws SQLException {
-        Integer id = Integer.parseInt(req.queryParams("id"));
-        Integer quantity = Integer.parseInt(req.queryParams("quantity"));
-        Product product = proDaoSql.find(id);
-        Basket basket = req.session().attribute("basket");
-        basket.remove(product, quantity);
-        res.redirect("/basket");
-        return "";
-    }
 
     public String renderListProductByCategory(Request req, Response res) throws SQLException {
         List<ProductCategory> categories = productCategoryDao.getAll();
