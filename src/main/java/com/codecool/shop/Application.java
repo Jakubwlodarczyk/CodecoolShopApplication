@@ -46,8 +46,8 @@ public class Application {
         get ("/basket", (req, res) -> this.basketController.renderListBasketItems(req, res));
         post("/byCategory", (req, res) -> this.productController.renderListProductByCategory(req,res));
         post("/bySupplier", (req, res) -> this.productController.renderListProductsBySupplier(req,res));
-        post("/add-to-basket", (req, res) -> this.productController.addToBasket(req, res));
-        post("/delete-from-basket", (req, res) -> this.productController.deleteFromBasket(req, res));
+        post("/add-to-basket", (req, res) -> this.basketController.addToBasket(req, res));
+        post("/delete-from-basket", (req, res) -> this.basketController.deleteFromBasket(req, res));
     }
     public static Application getApplication() {
         if(app == null) {
