@@ -19,7 +19,6 @@ public class Basket {
             BasketItem item = new BasketItem(product, quantity);
             this.getItems().add(item);
         }
-        System.out.println("all items in basket is:" + this.getItems());
     }
 
     public boolean remove(Product product, Integer quantity) {
