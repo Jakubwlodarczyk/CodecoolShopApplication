@@ -38,7 +38,6 @@ public class ProductDaoSqlite extends BaseDao implements ProductDao {
 
     @Override
     public void remove(int id) {
-
     }
 
     @Override

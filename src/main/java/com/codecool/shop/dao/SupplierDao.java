@@ -10,6 +10,5 @@ public interface SupplierDao {
     void add(Supplier supplier);
     Supplier find(int id) throws SQLException;
     void remove(int id);
-
     List<Supplier> getAll() throws SQLException;
 }

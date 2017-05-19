@@ -1,7 +1,6 @@
 package com.codecool.shop.dao;
 
 import com.codecool.shop.model.Supplier;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +25,6 @@ public class SupplierDaoSqlite extends BaseDao implements SupplierDao {
             );
             supplier.setId(rs.getInt("id"));
         }
-
         return supplier;
     }
 
