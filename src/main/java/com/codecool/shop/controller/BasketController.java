@@ -19,11 +19,17 @@ public class BasketController {
     public String renderListBasketItems(Request req, Response res) throws SQLException {
         Basket basket = req.session().attribute("basket");
         List<BasketItem> basketList = basket.getItems();
-        Map<String, List> params = new HashMap<>();
+        Map<String, Object> params = new HashMap<>();
         params.put("basketItems", basketList);
+        if (req.session().attribute("product") != null && !(req.session().attribute("quantity").equals(0))) {
+            Product product = req.session().attribute("product");
+            Integer quantity = req.session().attribute("quantity");
+            req.session().removeAttribute("product");
+            params.put("removedProduct", product);
+            params.put("quantity", quantity);
+        }
         return new ThymeleafTemplateEngine().render(new ModelAndView(params, "product/basket"));
     }
-
 
     public String addToBasket(Request req, Response res) throws SQLException {
         Integer id = Integer.parseInt(req.queryParams("id"));
@@ -37,13 +43,18 @@ public class BasketController {
         return "";
     }
 
-    public String deleteFromBasket(Request req, Response res) throws SQLException {
+    public Product deleteFromBasket(Request req, Response res) throws SQLException {
+        boolean isRemoved;
+        Map<String, Object> params = new HashMap();
         Integer id = Integer.parseInt(req.queryParams("id"));
         Integer quantity = Integer.parseInt(req.queryParams("quantity"));
         Product product = proDaoSql.find(id);
         Basket basket = req.session().attribute("basket");
-        basket.remove(product, quantity);
+        isRemoved = basket.remove(product, quantity);
+        System.out.println("Total quantity of items in basket: " + basket.getTotalCount());
+        req.session().attribute("product", product);
+        req.session().attribute("quantity", quantity);
         res.redirect("/basket");
-        return "";
+        return product;
     }
 }
