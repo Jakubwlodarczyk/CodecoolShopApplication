@@ -2,8 +2,8 @@ package com.codecool.shop.model;
 
 
 public class BasketItem extends BaseModel {
-    Product product;
-    Integer quantity;
+    private Product product;
+    private Integer quantity;
 
     BasketItem(Product product, Integer quantity) {
         super("", "");
