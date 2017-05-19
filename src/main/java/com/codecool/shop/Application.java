@@ -1,4 +1,5 @@
 package com.codecool.shop;
+
 import com.codecool.shop.controller.BasketController;
 import com.codecool.shop.controller.ProductController;
 import com.codecool.shop.dao.TablesCreator;
@@ -14,11 +15,14 @@ public class Application {
     private ProductController productController = new ProductController();
     private BasketController basketController = new BasketController();
     private TablesCreator tablesCreator = new TablesCreator();
+
     private Application() {
     }
+
     private void setConnection() throws SQLException {
         this.connection = DriverManager.getConnection("jdbc:sqlite:src/main/resources/database.db");
     }
+
     public void initializeTables() throws SQLException {
         try {
             tablesCreator.dropTables();
@@ -28,6 +32,7 @@ public class Application {
             e.printStackTrace();
         }
     }
+
     public void migrateTables() throws SQLException {
         try {
             tablesCreator.createTables();
@@ -35,9 +40,11 @@ public class Application {
             e.printStackTrace();
         }
     }
+
     public Connection getConnection() throws SQLException {
         return connection;
     }
+
     private void dispatchRoutes() {
         exception(Exception.class, (e, req, res) -> e.printStackTrace());
         staticFileLocation("/public");
@@ -49,12 +56,14 @@ public class Application {
         post("/add-to-basket", (req, res) -> this.basketController.addToBasket(req, res));
         post("/delete-from-basket", (req, res) -> this.basketController.deleteFromBasket(req, res));
     }
+
     public static Application getApplication() {
         if(app == null) {
             app = new Application();
         }
         return app;
     }
+
     public void run() {
         try {
             this.setConnection();
@@ -69,6 +78,7 @@ public class Application {
             e.printStackTrace();
         }
     }
+
     public static void stopApplicationBoot() {
         System.out.println("Database file not found, run this application with '--init-db' arguments");
         System.exit(0);
