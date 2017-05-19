@@ -12,6 +12,7 @@ public class Main {
             Application.stopApplicationBoot();
         }
         Application app = Application.getApplication();
+        app.run();
         if(args.length>0){
             if (args[0].equals("--init-db")) {
                 app.initializeTables();
