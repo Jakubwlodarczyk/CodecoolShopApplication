@@ -70,6 +70,12 @@ public class Application {
             this.dispatchRoutes();
             Runtime.getRuntime().addShutdownHook(new Thread() {
                 public void run() {
+                    try {
+                        connection.close();
+                        System.out.println("Connection with database closed.");
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
                     System.out.println("Bye bye :( ");
                 }
             });
