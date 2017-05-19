@@ -94,7 +94,7 @@
                         </div>
                         <div class="col-xs-12 col-md-6">
                             <form action="/add-to-basket" method="POST">
-                                <input  type="number" value="1" name="quantity" min="1" class="col-xs-12 col-md-6"/>
+                                <input  type="number" value="1" name="quantity" min="1" max="10000" class="col-xs-12 col-md-6"/>
                                 <input type="hidden" name="id" th:value="${prod.id}"/>
                             <button class="btn btn-success" type="submit" value="Add to cart">Add to cart</button>
                             </form>
