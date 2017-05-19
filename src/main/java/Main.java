@@ -20,5 +20,6 @@ public class Main {
                 app.migrateTables();
             }
         }
+        app.run();
     }
 }
