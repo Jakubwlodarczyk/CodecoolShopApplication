@@ -1,7 +1,6 @@
 package com.codecool.shop.dao;
 
 import com.codecool.shop.model.ProductCategory;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
