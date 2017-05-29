@@ -10,6 +10,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class BaseModelTest {
 	@Test
 	public void testGetName(){
-
-	}
+        System.out.println("elo");
+    }
 }
