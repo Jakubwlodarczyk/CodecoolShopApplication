@@ -9,9 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDaoSqlite extends BaseDao implements ProductDao {
+    SupplierDao supplierDao;
+    ProductCategoryDao productCategoryDao;
 
-    public ProductDaoSqlite(Connection connection) {
+    public ProductDaoSqlite(Connection connection, SupplierDaoSqlite supplierDao, ProductCategoryDaoSqlite productCategoryDao) {
         super(connection);
+        this.supplierDao = supplierDao;
+        this.productCategoryDao = productCategoryDao;
     }
 
     @Override
@@ -21,8 +25,6 @@ public class ProductDaoSqlite extends BaseDao implements ProductDao {
     @Override
     public Product find(int id) throws SQLException {
         Product product = null;
-        SupplierDao supplierDao = new SupplierDaoSqlite(SqliteJDSCConnector.getConnection());
-        ProductCategoryDao productCategoryDao = new ProductCategoryDaoSqlite(SqliteJDSCConnector.getConnection());
 
         PreparedStatement statement = this.getConnection().prepareStatement("SELECT * FROM products WHERE id= ?");
         statement.setInt(1, id);
@@ -33,8 +35,8 @@ public class ProductDaoSqlite extends BaseDao implements ProductDao {
             resultSet.getFloat("price"),
             "PLN",
             resultSet.getString("description"),
-            productCategoryDao.find(resultSet.getInt("category_id")),
-            supplierDao.find(resultSet.getInt("supplier_id"))
+            this.productCategoryDao.find(resultSet.getInt("category_id")),
+            this.supplierDao.find(resultSet.getInt("supplier_id"))
             );
             product.setId(resultSet.getInt("id"));
         }
@@ -73,8 +75,6 @@ public class ProductDaoSqlite extends BaseDao implements ProductDao {
 
     private List<Product> getProducts(PreparedStatement statement) throws SQLException {
         List<Product> products = new ArrayList<>();
-        SupplierDao supplierDao = new SupplierDaoSqlite(SqliteJDSCConnector.getConnection());
-        ProductCategoryDao productCategoryDao = new ProductCategoryDaoSqlite(SqliteJDSCConnector.getConnection());
         ResultSet resultSet = statement.executeQuery();
         while(resultSet.next()) {
             Product product = new Product(
@@ -82,8 +82,8 @@ public class ProductDaoSqlite extends BaseDao implements ProductDao {
                     resultSet.getFloat("price"),
                     "PLN",
                     resultSet.getString("description"),
-                    productCategoryDao.find(resultSet.getInt("category_id")),
-                    supplierDao.find(resultSet.getInt("supplier_id"))
+                    this.productCategoryDao.find(resultSet.getInt("category_id")),
+                    this.supplierDao.find(resultSet.getInt("supplier_id"))
             );
             product.setId(resultSet.getInt("id"));
             products.add(product);
