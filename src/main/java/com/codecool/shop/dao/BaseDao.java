@@ -8,8 +8,11 @@ abstract class BaseDao {
 
         private Connection connection;
 
-        public Connection getConnection() throws SQLException {
-            connection = Application.getApplication().getConnection();
-            return connection;
+        public BaseDao(Connection connection){
+            this.connection = connection;
+        }
+
+        Connection getConnection(){
+            return this.connection;
         }
     }
