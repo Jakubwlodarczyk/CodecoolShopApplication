@@ -1,5 +1,6 @@
 package com.codecool.shop.dao;
 import com.codecool.shop.Application;
+import com.codecool.shop.model.SqliteJDSCConnector;
 import org.apache.commons.io.FileUtils;
 import java.io.*;
 import java.sql.*;
@@ -24,7 +25,7 @@ public class TablesCreator {
         System.out.println("Dump data applied!");
     }
     private void executeQueries(List<String> queries) throws SQLException {
-        Connection connection = Application.getApplication().getConnection();
+        Connection connection = SqliteJDSCConnector.getConnection();
         Statement statement = connection.createStatement();
         for (String line : queries) {
             statement.execute(line);
