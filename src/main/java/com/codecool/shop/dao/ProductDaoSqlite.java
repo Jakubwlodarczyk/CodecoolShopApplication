@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDaoSqlite extends BaseDao implements ProductDao {
-    SupplierDao supplierDao;
-    ProductCategoryDao productCategoryDao;
+    private SupplierDao supplierDao;
+    private ProductCategoryDao productCategoryDao;
 
     public ProductDaoSqlite(Connection connection, SupplierDaoSqlite supplierDao, ProductCategoryDaoSqlite productCategoryDao) {
         super(connection);
