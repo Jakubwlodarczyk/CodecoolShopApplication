@@ -1,10 +1,7 @@
 package com.codecool.shop.controller;
 
 import com.codecool.shop.dao.*;
-import com.codecool.shop.model.Basket;
-import com.codecool.shop.model.Product;
-import com.codecool.shop.model.ProductCategory;
-import com.codecool.shop.model.Supplier;
+import com.codecool.shop.model.*;
 import spark.ModelAndView;
 import spark.Response;
 import spark.Request;
@@ -15,10 +12,9 @@ import java.util.List;
 import java.util.Map;
 
 public class ProductController {
-    private ProductDao productDao = new ProductDaoSqlite();
-    private ProductCategoryDao productCategoryDao = new ProductCategoryDaoSqlite();
-    private SupplierDao supplierDao = new SupplierDaoSqlite();
-
+    private ProductDao productDao = new ProductDaoSqlite(SqliteJDSCConnector.getConnection());
+    private ProductCategoryDao productCategoryDao = new ProductCategoryDaoSqlite(SqliteJDSCConnector.getConnection());
+    private SupplierDao supplierDao = new SupplierDaoSqlite(SqliteJDSCConnector.getConnection());
 
     public String renderListProducts(Request req, Response res) throws SQLException {
         List<ProductCategory> categories = productCategoryDao.getAll();

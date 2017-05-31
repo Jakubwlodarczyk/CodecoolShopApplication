@@ -4,6 +4,7 @@ import com.codecool.shop.dao.ProductDaoSqlite;
 import com.codecool.shop.model.Basket;
 import com.codecool.shop.model.BasketItem;
 import com.codecool.shop.model.Product;
+import com.codecool.shop.model.SqliteJDSCConnector;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 public class BasketController {
-    private ProductDaoSqlite proDaoSql = new ProductDaoSqlite();
+    private ProductDaoSqlite proDaoSql = new ProductDaoSqlite(SqliteJDSCConnector.getConnection());
 
     public String renderListBasketItems(Request req, Response res) throws SQLException {
         Basket basket = req.session().attribute("basket");
