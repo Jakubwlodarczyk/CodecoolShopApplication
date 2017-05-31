@@ -7,6 +7,11 @@ import java.sql.*;
 import java.util.List;
 
 public class TablesCreator {
+    private Connection connection;
+
+    public TablesCreator(Connection connection){
+        this.connection = connection;
+    }
     public void createTables() throws SQLException, IOException {
         executeQueries(createListOfQueries("createCategoriesTableQuery"));
         executeQueries(createListOfQueries("createSuppliersTableQuery"));
@@ -25,8 +30,7 @@ public class TablesCreator {
         System.out.println("Dump data applied!");
     }
     private void executeQueries(List<String> queries) throws SQLException {
-        Connection connection = SqliteJDSCConnector.getConnection();
-        Statement statement = connection.createStatement();
+        Statement statement = this.connection.createStatement();
         for (String line : queries) {
             statement.execute(line);
             statement.close();
