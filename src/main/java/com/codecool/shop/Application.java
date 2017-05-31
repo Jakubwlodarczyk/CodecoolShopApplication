@@ -55,26 +55,20 @@ public class Application {
         post("/delete-from-basket", (req, res) -> this.basketController.deleteFromBasket(req, res));
     }
 
-    public void run() {
-        try {
-            this.setConnection();
-            this.dispatchRoutes();
-            Runtime.getRuntime().addShutdownHook(new Thread() {
-                public void run() {
-                    try {
-                        connection.close();
-                        System.out.println("Connection with database closed.");
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                    System.out.println("Bye bye :( ");
-                }
-            });
-        } catch (SQLException e) {
-            System.out.println("Application initialization failed");
-            e.printStackTrace();
-        }
-    }
+	public void run() {
+		this.dispatchRoutes();
+		Runtime.getRuntime().addShutdownHook(new Thread() {
+			public void run() {
+				try {
+					SqliteJDSCConnector.getConnection().close();
+					System.out.println("Connection with database closed.");
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				System.out.println("Bye bye :( ");
+			}
+		});
+	}
 
 	public static Application getApplication() {
 		if (app == null) {
