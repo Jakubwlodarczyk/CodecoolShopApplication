@@ -12,11 +12,15 @@ import static spark.Spark.*;
 
 public class Application {
 	private static Application app;
-	private ProductController productController = new ProductController();
-	private BasketController basketController = new BasketController();
-	private TablesCreator tablesCreator = new TablesCreator();
+	private ProductController productController;
+	private BasketController basketController;
+	private TablesCreator tablesCreator;
 
 	private Application() {
+		SqliteJDSCConnector.setConnection();
+		this.productController = new ProductController();
+		this.basketController = new BasketController();
+		this.tablesCreator = new TablesCreator();
 	}
 
 	public void initializeTables() throws SQLException {
@@ -57,8 +61,6 @@ public class Application {
 	}
 
 	public void run() {
-
-		SqliteJDSCConnector.setConnection();
 		this.dispatchRoutes();
 		Runtime.getRuntime().addShutdownHook(new Thread() {
 			public void run() {

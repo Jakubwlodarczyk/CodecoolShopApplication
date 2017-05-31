@@ -15,7 +15,11 @@ import java.util.List;
 import java.util.Map;
 
 public class BasketController {
-    private ProductDaoSqlite proDaoSql = new ProductDaoSqlite(SqliteJDSCConnector.getConnection());
+    private ProductDaoSqlite proDaoSql;
+
+    public BasketController(){
+        this.proDaoSql = new ProductDaoSqlite(SqliteJDSCConnector.getConnection());
+    }
 
     public String renderListBasketItems(Request req, Response res) throws SQLException {
         Basket basket = req.session().attribute("basket");

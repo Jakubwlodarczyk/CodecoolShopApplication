@@ -12,9 +12,15 @@ import java.util.List;
 import java.util.Map;
 
 public class ProductController {
-    private ProductDao productDao = new ProductDaoSqlite(SqliteJDSCConnector.getConnection());
-    private ProductCategoryDao productCategoryDao = new ProductCategoryDaoSqlite(SqliteJDSCConnector.getConnection());
-    private SupplierDao supplierDao = new SupplierDaoSqlite(SqliteJDSCConnector.getConnection());
+    private ProductDao productDao;
+    private ProductCategoryDao productCategoryDao;
+    private SupplierDao supplierDao;
+
+    public ProductController(){
+        this.productDao = new ProductDaoSqlite(SqliteJDSCConnector.getConnection());
+        this.productCategoryDao = new ProductCategoryDaoSqlite(SqliteJDSCConnector.getConnection());
+        this.supplierDao = new SupplierDaoSqlite(SqliteJDSCConnector.getConnection());
+    }
 
     public String renderListProducts(Request req, Response res) throws SQLException {
         List<ProductCategory> categories = productCategoryDao.getAll();
