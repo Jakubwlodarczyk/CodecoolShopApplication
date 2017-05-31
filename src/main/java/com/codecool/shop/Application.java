@@ -65,7 +65,7 @@ public class Application {
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
-				System.out.println("Bye bye :disappointed: ");
+				System.out.println("Bye bye :( ");
 			}
 		});
 	}
