@@ -1,6 +1,8 @@
 package com.codecool.shop.controller;
 
+import com.codecool.shop.dao.ProductCategoryDaoSqlite;
 import com.codecool.shop.dao.ProductDaoSqlite;
+import com.codecool.shop.dao.SupplierDaoSqlite;
 import com.codecool.shop.model.Basket;
 import com.codecool.shop.model.BasketItem;
 import com.codecool.shop.model.Product;
@@ -9,6 +11,8 @@ import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
+
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
@@ -18,7 +22,8 @@ public class BasketController {
     private ProductDaoSqlite proDaoSql;
 
     public BasketController(){
-        this.proDaoSql = new ProductDaoSqlite(SqliteJDSCConnector.getConnection());
+        Connection connection = SqliteJDSCConnector.getConnection();
+        this.proDaoSql = new ProductDaoSqlite(connection, new SupplierDaoSqlite(connection), new ProductCategoryDaoSqlite(connection));
     }
 
     public ModelAndView renderListBasketItems(Request req, Response res) throws SQLException {
