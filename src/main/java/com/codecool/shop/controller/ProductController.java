@@ -6,6 +6,8 @@ import spark.ModelAndView;
 import spark.Response;
 import spark.Request;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
+
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
@@ -17,7 +19,8 @@ public class ProductController {
     private SupplierDao supplierDao;
 
     public ProductController(){
-        this.productDao = new ProductDaoSqlite(SqliteJDSCConnector.getConnection());
+        Connection connection = SqliteJDSCConnector.getConnection();
+        this.productDao = new ProductDaoSqlite(connection, new SupplierDaoSqlite(connection), new ProductCategoryDaoSqlite(connection));
         this.productCategoryDao = new ProductCategoryDaoSqlite(SqliteJDSCConnector.getConnection());
         this.supplierDao = new SupplierDaoSqlite(SqliteJDSCConnector.getConnection());
     }
