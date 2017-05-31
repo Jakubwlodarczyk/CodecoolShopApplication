@@ -2,12 +2,17 @@ package com.codecool.shop.dao;
 
 import com.codecool.shop.model.Product;
 import com.codecool.shop.model.ProductCategory;
+import com.codecool.shop.model.SqliteJDSCConnector;
 import com.codecool.shop.model.Supplier;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDaoSqlite extends BaseDao implements ProductDao {
+
+    public ProductDaoSqlite(Connection connection) {
+        super(connection);
+    }
 
     @Override
     public void add(Product product) {
@@ -16,8 +21,8 @@ public class ProductDaoSqlite extends BaseDao implements ProductDao {
     @Override
     public Product find(int id) throws SQLException {
         Product product = null;
-        SupplierDao supplierDao = new SupplierDaoSqlite();
-        ProductCategoryDao productCategoryDao = new ProductCategoryDaoSqlite();
+        SupplierDao supplierDao = new SupplierDaoSqlite(SqliteJDSCConnector.getConnection());
+        ProductCategoryDao productCategoryDao = new ProductCategoryDaoSqlite(SqliteJDSCConnector.getConnection());
 
         PreparedStatement statement = this.getConnection().prepareStatement("SELECT * FROM products WHERE id= ?");
         statement.setInt(1, id);
@@ -68,8 +73,8 @@ public class ProductDaoSqlite extends BaseDao implements ProductDao {
 
     private List<Product> getProducts(PreparedStatement statement) throws SQLException {
         List<Product> products = new ArrayList<>();
-        SupplierDao supplierDao = new SupplierDaoSqlite();
-        ProductCategoryDao productCategoryDao = new ProductCategoryDaoSqlite();
+        SupplierDao supplierDao = new SupplierDaoSqlite(SqliteJDSCConnector.getConnection());
+        ProductCategoryDao productCategoryDao = new ProductCategoryDaoSqlite(SqliteJDSCConnector.getConnection());
         ResultSet resultSet = statement.executeQuery();
         while(resultSet.next()) {
             Product product = new Product(
