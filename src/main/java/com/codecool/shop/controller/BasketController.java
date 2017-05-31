@@ -16,7 +16,7 @@ import java.util.Map;
 public class BasketController {
     private ProductDaoSqlite proDaoSql = new ProductDaoSqlite();
 
-    public String renderListBasketItems(Request req, Response res) throws SQLException {
+    public ModelAndView renderListBasketItems(Request req, Response res) throws SQLException {
         Basket basket = req.session().attribute("basket");
         List<BasketItem> basketList = basket.getItems();
         Map<String, Object> params = new HashMap<>();
@@ -28,7 +28,7 @@ public class BasketController {
             params.put("removedProduct", product);
             params.put("quantity", quantity);
         }
-        return new ThymeleafTemplateEngine().render(new ModelAndView(params, "product/basket"));
+        return new ModelAndView(params, "product/basket");
     }
 
     public String addToBasket(Request req, Response res) throws SQLException {
@@ -44,13 +44,13 @@ public class BasketController {
     }
 
     public Product deleteFromBasket(Request req, Response res) throws SQLException {
-        boolean isRemoved;
+
         Map<String, Object> params = new HashMap();
         Integer id = Integer.parseInt(req.queryParams("id"));
         Integer quantity = Integer.parseInt(req.queryParams("quantity"));
         Product product = proDaoSql.find(id);
         Basket basket = req.session().attribute("basket");
-        isRemoved = basket.remove(product, quantity);
+        basket.remove(product, quantity);
         System.out.println("Total quantity of items in basket: " + basket.getTotalCount());
         req.session().attribute("product", product);
         req.session().attribute("quantity", quantity);

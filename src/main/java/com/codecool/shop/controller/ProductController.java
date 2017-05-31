@@ -20,7 +20,7 @@ public class ProductController {
     private SupplierDao supplierDao = new SupplierDaoSqlite();
 
 
-    public String renderListProducts(Request req, Response res) throws SQLException {
+    public ModelAndView renderListProducts(Request req, Response res) throws SQLException {
         List<ProductCategory> categories = productCategoryDao.getAll();
         List<Supplier> suppliers = supplierDao.getAll();
         List<Product> products = productDao.getAll();
@@ -41,10 +41,10 @@ public class ProductController {
             params.put("purchased", product);
             params.put("quantity", quantity);
         }
-        return new ThymeleafTemplateEngine().render(new ModelAndView(params, "product/index"));
+        return new ModelAndView(params, "product/index");
         }
 
-    public String renderListProductByCategory(Request req, Response res) throws SQLException {
+    public ModelAndView renderListProductByCategory(Request req, Response res) throws SQLException {
         List<ProductCategory> categories = productCategoryDao.getAll();
         List<Supplier> suppliers = supplierDao.getAll();
         String categoryId = req.queryParams("selectCategory");
@@ -55,10 +55,10 @@ public class ProductController {
         params.put("categories", categories);
         params.put("suppliers", suppliers);
         params.put("category", category.getName());
-        return new ThymeleafTemplateEngine().render(new ModelAndView(params, "product/index"));
+        return new ModelAndView(params, "product/index");
     }
 
-    public String renderListProductsBySupplier(Request req, Response res) throws SQLException {
+    public ModelAndView renderListProductsBySupplier(Request req, Response res) throws SQLException {
         List<ProductCategory> categories = productCategoryDao.getAll();
         List<Supplier> suppliers = supplierDao.getAll();
         String supplierId = req.queryParams("selectSupplier");
@@ -69,6 +69,6 @@ public class ProductController {
         params.put("suppliers", suppliers);
         params.put("categories", categories);
         params.put("supplier", supplier.getName());
-        return new ThymeleafTemplateEngine().render(new ModelAndView(params, "product/index"));
+        return new ModelAndView(params, "product/index");
     }
 }
