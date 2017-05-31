@@ -6,9 +6,9 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class SqliteJDSCConnector {
+	private static Connection connection;
 
-	public Connection connection() {
-		Connection connection = null;
+	public void setConnection() {
 
 		try {
 			connection = DriverManager.getConnection(
@@ -16,7 +16,9 @@ public class SqliteJDSCConnector {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
 
+	public Connection getConnection(){
 		return connection;
 	}
 }
