@@ -16,10 +16,12 @@ public class ProductController {
     private ProductCategoryDao productCategoryDao;
     private SupplierDao supplierDao;
 
-    public ProductController(){
-        this.productDao = new ProductDaoSqlite(SqliteJDSCConnector.getConnection());
-        this.productCategoryDao = new ProductCategoryDaoSqlite(SqliteJDSCConnector.getConnection());
-        this.supplierDao = new SupplierDaoSqlite(SqliteJDSCConnector.getConnection());
+    public ProductController(ProductDao productDao,
+                             ProductCategoryDao productCategoryDao,
+                             SupplierDao supplierDao){
+        this.productDao = productDao;
+        this.productCategoryDao = productCategoryDao;
+        this.supplierDao = supplierDao;
     }
 
     public ModelAndView renderListProducts(Request req, Response res) throws SQLException {
