@@ -8,7 +8,7 @@ import java.util.Properties;
 public class SqliteJDSCConnector {
 	private static Connection connection;
 
-	public void setConnection() {
+	public static void setConnection() {
 
 		try {
 			connection = DriverManager.getConnection(
@@ -18,7 +18,7 @@ public class SqliteJDSCConnector {
 		}
 	}
 
-	public Connection getConnection(){
+	public static Connection getConnection(){
 		return connection;
 	}
 }
