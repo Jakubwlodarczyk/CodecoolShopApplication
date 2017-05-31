@@ -22,7 +22,7 @@ public class Application {
 		SqliteJDSCConnector.setConnection();
 		this.productController = new ProductController();
 		this.basketController = new BasketController();
-		this.tablesCreator = new TablesCreator();
+		this.tablesCreator = new TablesCreator(SqliteJDSCConnector.getConnection());
 	}
 
 	public void initializeTables() throws SQLException {
