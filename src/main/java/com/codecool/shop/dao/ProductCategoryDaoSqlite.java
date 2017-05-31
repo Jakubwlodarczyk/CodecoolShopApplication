@@ -7,6 +7,10 @@ import java.util.List;
 
 public class ProductCategoryDaoSqlite extends BaseDao implements ProductCategoryDao {
 
+    public ProductCategoryDaoSqlite(Connection connection) {
+        super(connection);
+    }
+
     @Override
     public void add(ProductCategory category) {
     }

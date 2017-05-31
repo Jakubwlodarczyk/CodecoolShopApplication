@@ -9,6 +9,10 @@ import java.util.List;
 
 public class ProductDaoSqlite extends BaseDao implements ProductDao {
 
+    public ProductDaoSqlite(Connection connection) {
+        super(connection);
+    }
+
     @Override
     public void add(Product product) {
     }
