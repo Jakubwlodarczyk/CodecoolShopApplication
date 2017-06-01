@@ -21,9 +21,9 @@ import java.util.Map;
 public class BasketController {
     private ProductDaoSqlite proDaoSql;
 
-    public BasketController(){
+    public BasketController(ProductDaoSqlite proDaoSql){
         Connection connection = SqliteJDSCConnector.getConnection();
-        this.proDaoSql = new ProductDaoSqlite(connection, new SupplierDaoSqlite(connection), new ProductCategoryDaoSqlite(connection));
+        this.proDaoSql = proDaoSql;
     }
 
     public ModelAndView renderListBasketItems(Request req, Response res) throws SQLException {
