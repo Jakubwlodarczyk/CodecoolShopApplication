@@ -1,5 +1,7 @@
 package com.codecool.shop.model;
 
+import java.util.Objects;
+
 public class Product extends BaseModel {
 
     private float defaultPrice;
@@ -75,5 +77,17 @@ public class Product extends BaseModel {
                 this.defaultCurrency,
                 this.productCategory.getName(),
                 this.supplier.getName());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!super.equals(o)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return Float.compare(product.defaultPrice, defaultPrice) == 0 &&
+                Objects.equals(defaultCurrency, product.defaultCurrency) &&
+                Objects.equals(productCategory, product.productCategory) &&
+                Objects.equals(supplier, product.supplier);
     }
 }

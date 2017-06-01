@@ -1,6 +1,7 @@
 package com.codecool.shop.model;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 public class Supplier extends BaseModel {
@@ -32,5 +33,10 @@ public class Supplier extends BaseModel {
                 this.name,
                 this.description
         );
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
     }
 }
