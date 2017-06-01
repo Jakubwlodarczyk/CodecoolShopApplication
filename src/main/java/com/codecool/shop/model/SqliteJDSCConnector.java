@@ -8,11 +8,10 @@ import java.util.Properties;
 public class SqliteJDSCConnector {
 	private static Connection connection;
 
-	public static void setConnection() {
+	public static void setConnection(String driver) {
 
 		try {
-			connection = DriverManager.getConnection(
-					"jdbc:sqlite:src/main/resources/database.db");
+			connection = DriverManager.getConnection(driver);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
