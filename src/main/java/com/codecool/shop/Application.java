@@ -24,7 +24,7 @@ public class Application {
 	private Application() {
 		SqliteJDSCConnector.setConnection();
 		this.productController = new ProductController(
-				new ProductDaoSqlite(SqliteJDSCConnector.getConnection()),
+				new ProductDaoSqlite(SqliteJDSCConnector.getConnection(),new SupplierDaoSqlite(SqliteJDSCConnector.getConnection()), new ProductCategoryDaoSqlite(SqliteJDSCConnector.getConnection())),
 				new ProductCategoryDaoSqlite(SqliteJDSCConnector.getConnection()),
 				new SupplierDaoSqlite(SqliteJDSCConnector.getConnection()));
 		this.basketController = new BasketController();
