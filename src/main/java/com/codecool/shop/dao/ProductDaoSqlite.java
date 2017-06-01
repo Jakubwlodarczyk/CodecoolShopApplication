@@ -19,10 +19,6 @@ public class ProductDaoSqlite extends BaseDao implements ProductDao {
     }
 
     @Override
-    public void add(Product product) {
-    }
-
-    @Override
     public Product find(int id) throws SQLException {
         Product product = null;
 
@@ -41,10 +37,6 @@ public class ProductDaoSqlite extends BaseDao implements ProductDao {
             product.setId(resultSet.getInt("id"));
         }
         return product;
-    }
-
-    @Override
-    public void remove(int id) {
     }
 
     @Override
