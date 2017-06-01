@@ -11,6 +11,7 @@ import com.codecool.shop.model.SqliteJDSCConnector;
 
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.SQLException;
 
 import static spark.Spark.*;
@@ -23,11 +24,12 @@ public class Application {
 
 	private Application() {
 		SqliteJDSCConnector.setConnection();
+		Connection connection = SqliteJDSCConnector.getConnection();
 		this.productController = new ProductController(
-				new ProductDaoSqlite(SqliteJDSCConnector.getConnection(),new SupplierDaoSqlite(SqliteJDSCConnector.getConnection()), new ProductCategoryDaoSqlite(SqliteJDSCConnector.getConnection())),
-				new ProductCategoryDaoSqlite(SqliteJDSCConnector.getConnection()),
+				new ProductDaoSqlite(connection,new SupplierDaoSqlite(connection), new ProductCategoryDaoSqlite(connection)),
+				new ProductCategoryDaoSqlite(connection),
 				new SupplierDaoSqlite(SqliteJDSCConnector.getConnection()));
-		this.basketController = new BasketController();
+		this.basketController = new BasketController(new ProductDaoSqlite(connection, new SupplierDaoSqlite(connection), new ProductCategoryDaoSqlite(connection)));
 		this.tablesCreator = new TablesCreator(SqliteJDSCConnector.getConnection());
 	}
 
