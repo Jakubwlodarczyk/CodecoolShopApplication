@@ -23,7 +23,11 @@ public class Application {
 	private TablesCreator tablesCreator;
 
 	private Application() {
-		SqliteJDSCConnector.setConnection("jdbc:sqlite:src/main/resources/database.db");
+		try {
+			SqliteJDSCConnector.setConnection("jdbc:sqlite:src/main/resources/database.db");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		Connection connection = SqliteJDSCConnector.getConnection();
 		this.productController = new ProductController(
 				new ProductDaoSqlite(connection,new SupplierDaoSqlite(connection), new ProductCategoryDaoSqlite(connection)),
