@@ -2,6 +2,9 @@ package com.codecool.shop;
 
 import com.codecool.shop.controller.BasketController;
 import com.codecool.shop.controller.ProductController;
+import com.codecool.shop.dao.ProductCategoryDaoSqlite;
+import com.codecool.shop.dao.ProductDaoSqlite;
+import com.codecool.shop.dao.SupplierDaoSqlite;
 import com.codecool.shop.dao.TablesCreator;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 import com.codecool.shop.model.SqliteJDSCConnector;
@@ -20,7 +23,10 @@ public class Application {
 
 	private Application() {
 		SqliteJDSCConnector.setConnection();
-		this.productController = new ProductController();
+		this.productController = new ProductController(
+				new ProductDaoSqlite(SqliteJDSCConnector.getConnection()),
+				new ProductCategoryDaoSqlite(SqliteJDSCConnector.getConnection()),
+				new SupplierDaoSqlite(SqliteJDSCConnector.getConnection()));
 		this.basketController = new BasketController();
 		this.tablesCreator = new TablesCreator(SqliteJDSCConnector.getConnection());
 	}
