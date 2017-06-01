@@ -6,6 +6,8 @@ import spark.ModelAndView;
 import spark.Response;
 import spark.Request;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
+
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +17,7 @@ public class ProductController {
     private ProductDao productDao;
     private ProductCategoryDao productCategoryDao;
     private SupplierDao supplierDao;
+
 
     public ProductController(ProductDao productDao,
                              ProductCategoryDao productCategoryDao,
