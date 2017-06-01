@@ -12,10 +12,6 @@ public class ProductCategoryDaoSqlite extends BaseDao implements ProductCategory
     }
 
     @Override
-    public void add(ProductCategory category) {
-    }
-
-    @Override
     public ProductCategory find(int id) throws SQLException{
         ProductCategory category = null;
 
@@ -31,10 +27,6 @@ public class ProductCategoryDaoSqlite extends BaseDao implements ProductCategory
             category.setId(rs.getInt("id"));
         }
         return category;
-    }
-
-    @Override
-    public void remove(int id) {
     }
 
     @Override
